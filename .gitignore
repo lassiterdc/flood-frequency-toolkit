@@ -208,10 +208,7 @@ __marimo__/
 .scratch/
 
 # Claude AI config (stored privately in claude-workspace, symlinked here)
-/CLAUDE.md
 /.claude/
-/AGENTS.md
-/.clinerules
 docs/planning/scratch/
 
 # Scientific data
@@ -223,3 +220,12 @@ docs/planning/scratch/
 # Project-specific
 *_archive*
 hydroshare_data/*
+
+# >>> local agent entrypoints (generated, do not edit) >>>
+# Files that local agent tooling writes into this checkout; not part of the project.
+# This block is rewritten automatically, so edits inside it are discarded.
+/.claude/settings.local.json
+/.clinerules
+/AGENTS.md
+/CLAUDE.md
+# <<< local agent entrypoints <<<
