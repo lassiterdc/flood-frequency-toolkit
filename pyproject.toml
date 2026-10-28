@@ -17,7 +17,7 @@ classifiers = [
     "Typing :: Typed",
     # TODO: Add additional classifiers as needed
 ]
-license = {text = "MIT"}
+license = {text = "AGPL-3.0-or-later"}
 dependencies = [
   "typer",
   "rich",
