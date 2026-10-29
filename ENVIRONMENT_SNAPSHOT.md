@@ -39,13 +39,13 @@ This is the most reliable method as it captures all dependencies exactly as they
 ```bash
 # Clean slate - remove old environment if it exists
 conda deactivate
-conda env remove -n ss-fha
+conda env remove -n fft
 
 # Create environment from lock file
 conda env create -f environment-lock.yaml
 
 # Activate the environment
-conda activate ss-fha
+conda activate fft
 ```
 
 #### Using on HPC systems (with module system):
@@ -57,7 +57,7 @@ module load miniforge  # or conda/mamba module on your system
 conda env create -f environment-lock.yaml
 
 # Activate
-conda activate ss-fha
+conda activate fft
 ```
 
 ### Option 2: Update Existing Environment
@@ -66,7 +66,7 @@ If you already have the environment and just want to update it:
 
 ```bash
 # Activate your existing environment
-conda activate ss-fha
+conda activate fft
 
 # Update to match the lock file
 conda env update -f environment-lock.yaml --prune
@@ -78,10 +78,10 @@ If you prefer or need to use pip only:
 
 ```bash
 # Create a Python 3.11 environment
-conda create -n ss-fha python=3.11
+conda create -n fft python=3.11
 
 # Activate it
-conda activate ss-fha
+conda activate fft
 
 # Install from requirements file
 pip install -r requirements-pinned.txt
@@ -131,7 +131,7 @@ When you install new packages or update existing ones in your environment, regen
 
 ```bash
 # With conda
-conda env export -n ss-fha > environment-lock.yaml
+conda env export -n fft > environment-lock.yaml
 
 # With pip
 pip freeze > requirements-pinned.txt
@@ -164,7 +164,7 @@ Or for Docker:
 
 ```dockerfile
 RUN conda env create -f environment-lock.yaml
-RUN echo "conda activate ss-fha" >> ~/.bashrc
+RUN echo "conda activate fft" >> ~/.bashrc
 ```
 
 ## Questions?

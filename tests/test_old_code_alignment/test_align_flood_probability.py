@@ -1,7 +1,7 @@
 """Old-code alignment tests for 02A — flood probability.
 
 Tests verify that the refactored ``compute_emp_cdf_and_return_pds`` in
-``ss_fha.core.flood_probability`` produces numerically identical results
+``flood_frequency_toolkit.core.flood_probability`` produces numerically identical results
 to the old implementation in ``_old_code_to_refactor/__utils.py``.
 
 Key differences handled:
@@ -24,9 +24,9 @@ from __utils import compute_emp_cdf_and_return_pds as _old_compute
 from __utils import stack_wlevel_dataset as _old_stack_wlevel_dataset
 
 # New code imports
-from ss_fha.core.empirical_frequency_analysis import calculate_positions
-from ss_fha.core.flood_probability import compute_emp_cdf_and_return_pds as _new_compute
-from ss_fha.exceptions import SSFHAError
+from flood_frequency_toolkit.core.empirical_frequency_analysis import calculate_positions
+from flood_frequency_toolkit.core.flood_probability import compute_emp_cdf_and_return_pds as _new_compute
+from flood_frequency_toolkit.exceptions import SSFHAError
 
 
 # ---------------------------------------------------------------------------

@@ -1,6 +1,6 @@
 Usage
 =====
 
-To use ss-fha in a project::
+To use flood-frequency-toolkit in a project::
 
-    import ss_fha
+    import flood_frequency_toolkit

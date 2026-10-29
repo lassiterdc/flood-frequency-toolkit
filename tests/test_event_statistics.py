@@ -1,4 +1,4 @@
-"""Unit tests for ss_fha.core.event_statistics (Work Chunk 02C).
+"""Unit tests for flood_frequency_toolkit.core.event_statistics (Work Chunk 02C).
 
 Validation strategy
 -------------------
@@ -32,14 +32,14 @@ import numpy as np
 import pandas as pd
 import pytest
 
-from ss_fha.core.event_statistics import (
+from flood_frequency_toolkit.core.event_statistics import (
     _empirical_multivariate_return_periods_reference,
     empirical_multivariate_return_periods,
     compute_all_multivariate_return_period_combinations,
     compute_univariate_event_return_periods,
     return_df_of_events_within_ci,
 )
-from ss_fha.exceptions import ConfigurationError
+from flood_frequency_toolkit.exceptions import ConfigurationError
 
 
 # ---------------------------------------------------------------------------
@@ -334,7 +334,7 @@ class TestComparativeAnalysisValidation:
     """SsfhaConfig with is_comparative_analysis=True must reject forbidden fields."""
 
     def _base_comparative_kwargs(self) -> dict:
-        from ss_fha.config.model import (
+        from flood_frequency_toolkit.config.model import (
             TritonOutputsConfig, EventDataConfig, ExecutionConfig
         )
         return dict(
@@ -358,7 +358,7 @@ class TestComparativeAnalysisValidation:
 
     def test_comparative_analysis_valid_minimal(self):
         """A minimal comparative analysis config should load without error."""
-        from ss_fha.config.model import SsfhaConfig
+        from flood_frequency_toolkit.config.model import SsfhaConfig
         kwargs = self._base_comparative_kwargs()
         cfg = SsfhaConfig(**kwargs)
         assert cfg.is_comparative_analysis is True
@@ -366,7 +366,7 @@ class TestComparativeAnalysisValidation:
     def test_comparative_analysis_rejects_event_statistics(self):
         """is_comparative_analysis=True must raise if event_statistic_variables is set."""
 
-        from ss_fha.config.model import SsfhaConfig, EventStatisticsConfig, EventStatisticVariableConfig
+        from flood_frequency_toolkit.config.model import SsfhaConfig, EventStatisticsConfig, EventStatisticVariableConfig
         kwargs = self._base_comparative_kwargs()
         kwargs["event_statistic_variables"] = EventStatisticsConfig(
             precip_intensity=EventStatisticVariableConfig(
@@ -379,7 +379,7 @@ class TestComparativeAnalysisValidation:
     def test_comparative_analysis_rejects_alt_fha_analyses(self):
         """is_comparative_analysis=True must raise if alt_fha_analyses is non-empty."""
 
-        from ss_fha.config.model import SsfhaConfig
+        from flood_frequency_toolkit.config.model import SsfhaConfig
         kwargs = self._base_comparative_kwargs()
         kwargs["alt_fha_analyses"] = ["/tmp/other.yaml"]
         with pytest.raises(ConfigurationError, match="alt_fha_analyses"):
@@ -388,7 +388,7 @@ class TestComparativeAnalysisValidation:
     def test_comparative_analysis_rejects_toggle_mcds(self):
         """is_comparative_analysis=True must raise if toggle_mcds=True."""
 
-        from ss_fha.config.model import SsfhaConfig
+        from flood_frequency_toolkit.config.model import SsfhaConfig
         kwargs = self._base_comparative_kwargs()
         kwargs["toggle_mcds"] = True
         with pytest.raises(ConfigurationError, match="toggle_mcds"):
@@ -397,7 +397,7 @@ class TestComparativeAnalysisValidation:
     def test_primary_analysis_requires_event_statistics(self):
         """is_comparative_analysis=False must raise if event_statistic_variables is missing."""
 
-        from ss_fha.config.model import SsfhaConfig
+        from flood_frequency_toolkit.config.model import SsfhaConfig
         kwargs = self._base_comparative_kwargs()
         kwargs["is_comparative_analysis"] = False
         kwargs["weather_event_indices"] = ["event_type", "year", "event_id"]
@@ -408,7 +408,7 @@ class TestComparativeAnalysisValidation:
     def test_primary_analysis_requires_weather_event_indices(self):
         """is_comparative_analysis=False must raise if weather_event_indices is missing."""
 
-        from ss_fha.config.model import SsfhaConfig, EventStatisticsConfig, EventStatisticVariableConfig
+        from flood_frequency_toolkit.config.model import SsfhaConfig, EventStatisticsConfig, EventStatisticVariableConfig
         kwargs = self._base_comparative_kwargs()
         kwargs["is_comparative_analysis"] = False
         kwargs["event_statistic_variables"] = EventStatisticsConfig(
@@ -423,7 +423,7 @@ class TestComparativeAnalysisValidation:
     def test_primary_analysis_requires_year_in_indices(self):
         """weather_event_indices must contain a year-like index."""
 
-        from ss_fha.config.model import SsfhaConfig, EventStatisticsConfig, EventStatisticVariableConfig
+        from flood_frequency_toolkit.config.model import SsfhaConfig, EventStatisticsConfig, EventStatisticVariableConfig
         kwargs = self._base_comparative_kwargs()
         kwargs["is_comparative_analysis"] = False
         kwargs["weather_event_indices"] = ["event_type", "event_id"]  # no year
@@ -437,7 +437,7 @@ class TestComparativeAnalysisValidation:
 
     def test_weather_event_indices_accepts_year_alias_yr(self):
         """'yr' is an accepted alias for the year index."""
-        from ss_fha.config.model import SsfhaConfig, EventStatisticsConfig, EventStatisticVariableConfig
+        from flood_frequency_toolkit.config.model import SsfhaConfig, EventStatisticsConfig, EventStatisticVariableConfig
         kwargs = self._base_comparative_kwargs()
         kwargs["is_comparative_analysis"] = False
         kwargs["weather_event_indices"] = ["event_type", "yr", "event_id"]

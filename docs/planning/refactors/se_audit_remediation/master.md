@@ -77,7 +77,7 @@ Phase 1 must be committed first. Phases 2 and 3 depend on Phase 1 (SSFHAConfig c
 
 ## Decisions Log
 
-1. **`cli.py` cannot be deleted** — `pyproject.toml` declares `ss_fha = "ss_fha.cli:app"` as a console script entry point. Deleting `cli.py` would break `pip install -e .`. Instead: gut the placeholder body but keep the file with a minimal `app = typer.Typer()` and a comment pointing to the 04B plan. Delete `utils.py` since nothing depends on it.
+1. **`cli.py` cannot be deleted** — `pyproject.toml` declares `flood_frequency_toolkit = "flood_frequency_toolkit.cli:app"` as a console script entry point. Deleting `cli.py` would break `pip install -e .`. Instead: gut the placeholder body but keep the file with a minimal `app = typer.Typer()` and a comment pointing to the 04B plan. Delete `utils.py` since nothing depends on it.
 
 2. **`ASSIGN_DUP_VALS_MAX_RETURN` threading scope** — the constant is imported in 3 modules (`event_statistics.py`, `geospatial.py`, `empirical_frequency_analysis.py`) and used at 6 call sites. All call sites already pass it as a keyword argument to `compute_return_periods_for_series`, except the 2 uses in `compute_univariate_event_return_periods` and `compute_all_multivariate_return_period_combinations` which read it directly. The threading adds a parameter to 4 functions and passes it from 2 callers. Manageable.
 

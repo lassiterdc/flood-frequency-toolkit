@@ -48,7 +48,7 @@ Address the 12 actionable findings from `docs/planning/audits/2026-03-14_ecosyst
 
 **Two-phase split**: Phase 1 executes all mechanical fixes autonomously. Phase 2 writes a triage checklist for the four human-decision items — not an implementation, a decision artifact.
 
-Phase 1 spans two repos (`ss-fha` and `agentic-workspace`) and requires two commits.
+Phase 1 spans two repos (`flood-frequency-toolkit` and `agentic-workspace`) and requires two commits.
 
 ---
 
@@ -63,8 +63,8 @@ Phase 1 spans two repos (`ss-fha` and `agentic-workspace`) and requires two comm
 
 ## Risks
 
-- **Cross-repo commits**: Phase 1 edits span `ss-fha` and `agentic-workspace` — two separate commits required.
-- **Workspace-local `architecture.md`**: Exists at repo root (`/home/dcl3nd/dev/ss-fha/architecture.md`), not under `src/`. If it does not exist on inspection, skip it — ecosystem copy is authoritative.
+- **Cross-repo commits**: Phase 1 edits span `flood-frequency-toolkit` and `agentic-workspace` — two separate commits required.
+- **Workspace-local `architecture.md`**: Exists at repo root (`/home/dcl3nd/dev/flood-frequency-toolkit/architecture.md`), not under `src/`. If it does not exist on inspection, skip it — ecosystem copy is authoritative.
 - **Dual `architecture.md` divergence**: Nothing in this plan prevents future drift. The Gotchas section calls it out; longer-term fix (symlink or removal) is a Phase 2 decision item.
 
 ---

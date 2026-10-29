@@ -4,31 +4,31 @@ Installation
 Stable release
 --------------
 
-To install ss-fha, run this command in your terminal::
+To install flood-frequency-toolkit, run this command in your terminal::
 
-    uv add ss-fha
+    uv add flood-frequency-toolkit
 
 Or if you prefer to use ``pip``::
 
-    pip install ss-fha
+    pip install flood-frequency-toolkit
 
 
 From source
 -----------
 
-The source files for ss-fha can be downloaded from the
-`Github repo <https://github.com/lassiterdc/ss_fha>`_.
+The source files for flood-frequency-toolkit can be downloaded from the
+`Github repo <https://github.com/lassiterdc/flood_frequency_toolkit>`_.
 
 You can either clone the public repository::
 
-    git clone https://github.com/lassiterdc/ss_fha
+    git clone https://github.com/lassiterdc/flood_frequency_toolkit
 
 Or download the
-`tarball <https://github.com/lassiterdc/ss_fha/tarball/main>`_::
+`tarball <https://github.com/lassiterdc/flood_frequency_toolkit/tarball/main>`_::
 
-    curl -OJL https://github.com/lassiterdc/ss_fha/tarball/main
+    curl -OJL https://github.com/lassiterdc/flood_frequency_toolkit/tarball/main
 
 Once you have a copy of the source, you can install it with::
 
-    cd ss_fha
+    cd flood_frequency_toolkit
     uv sync

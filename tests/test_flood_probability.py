@@ -1,7 +1,7 @@
-"""Unit tests for ss_fha.core.flood_probability (Work Chunk 02A).
+"""Unit tests for flood_frequency_toolkit.core.flood_probability (Work Chunk 02A).
 
 Note: ``calculate_positions`` and ``calculate_return_period`` moved to
-``ss_fha.core.empirical_frequency_analysis`` (Work Chunk 02E). Their
+``flood_frequency_toolkit.core.empirical_frequency_analysis`` (Work Chunk 02E). Their
 dedicated tests are in ``tests/test_empirical_frequency_analysis.py``.
 They are imported here only because ``TestComputeEmpCdfAndReturnPds``
 uses them as reference values.
@@ -23,12 +23,12 @@ import numpy as np
 import pytest
 import xarray as xr
 
-from ss_fha.core.empirical_frequency_analysis import (
+from flood_frequency_toolkit.core.empirical_frequency_analysis import (
     calculate_positions,
     calculate_return_period,
 )
-from ss_fha.core.flood_probability import compute_emp_cdf_and_return_pds
-from ss_fha.exceptions import SSFHAError
+from flood_frequency_toolkit.core.flood_probability import compute_emp_cdf_and_return_pds
+from flood_frequency_toolkit.exceptions import SSFHAError
 
 
 # ---------------------------------------------------------------------------

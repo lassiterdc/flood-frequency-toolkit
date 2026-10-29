@@ -1,4 +1,4 @@
-"""Tests for ss_fha.core.geospatial (Work Chunk 02D, Part B).
+"""Tests for flood_frequency_toolkit.core.geospatial (Work Chunk 02D, Part B).
 
 All tests use synthetic in-memory data — no real case study files required.
 Geometries and grids are constructed with known properties so that correct
@@ -88,20 +88,20 @@ def feature_da_3events():
 
 class TestGridCellSizeM:
     def test_returns_correct_size(self, square_grid_ds):
-        from ss_fha.core.geospatial import grid_cell_size_m
+        from flood_frequency_toolkit.core.geospatial import grid_cell_size_m
 
         size = grid_cell_size_m(square_grid_ds)
         assert size == pytest.approx(50.0)
 
     def test_accepts_dataarray(self, square_grid_ds):
-        from ss_fha.core.geospatial import grid_cell_size_m
+        from flood_frequency_toolkit.core.geospatial import grid_cell_size_m
 
         size = grid_cell_size_m(square_grid_ds["wlevel"])
         assert size == pytest.approx(50.0)
 
     def test_nonsquare_grid_raises(self, nonsquare_grid_ds):
-        from ss_fha.exceptions import ComputationError
-        from ss_fha.core.geospatial import grid_cell_size_m
+        from flood_frequency_toolkit.exceptions import ComputationError
+        from flood_frequency_toolkit.core.geospatial import grid_cell_size_m
 
         with pytest.raises(ComputationError, match="not square"):
             grid_cell_size_m(nonsquare_grid_ds)
@@ -113,7 +113,7 @@ class TestGridCellSizeM:
 
 class TestReturnImpactedFeatures:
     def test_output_shape(self, feature_da_3events):
-        from ss_fha.core.geospatial import return_impacted_features
+        from flood_frequency_toolkit.core.geospatial import return_impacted_features
 
         sorted_features = np.array([1, 2])
         result = return_impacted_features(
@@ -128,7 +128,7 @@ class TestReturnImpactedFeatures:
 
     def test_correct_impact_event0(self, feature_da_3events):
         """Event 0: only feature 1 impacted."""
-        from ss_fha.core.geospatial import return_impacted_features
+        from flood_frequency_toolkit.core.geospatial import return_impacted_features
 
         sorted_features = np.array([1, 2])
         result = return_impacted_features(
@@ -142,7 +142,7 @@ class TestReturnImpactedFeatures:
 
     def test_correct_impact_event1(self, feature_da_3events):
         """Event 1: only feature 2 impacted."""
-        from ss_fha.core.geospatial import return_impacted_features
+        from flood_frequency_toolkit.core.geospatial import return_impacted_features
 
         sorted_features = np.array([1, 2])
         result = return_impacted_features(
@@ -156,7 +156,7 @@ class TestReturnImpactedFeatures:
 
     def test_correct_impact_event2(self, feature_da_3events):
         """Event 2: both features impacted."""
-        from ss_fha.core.geospatial import return_impacted_features
+        from flood_frequency_toolkit.core.geospatial import return_impacted_features
 
         sorted_features = np.array([1, 2])
         result = return_impacted_features(
@@ -169,7 +169,7 @@ class TestReturnImpactedFeatures:
         assert bool(result.sel(event_iloc=2, roads=2).values)
 
     def test_output_dtype_is_bool(self, feature_da_3events):
-        from ss_fha.core.geospatial import return_impacted_features
+        from flood_frequency_toolkit.core.geospatial import return_impacted_features
 
         sorted_features = np.array([1, 2])
         result = return_impacted_features(
@@ -181,7 +181,7 @@ class TestReturnImpactedFeatures:
         assert result.dtype == bool
 
     def test_output_name(self, feature_da_3events):
-        from ss_fha.core.geospatial import return_impacted_features
+        from flood_frequency_toolkit.core.geospatial import return_impacted_features
 
         sorted_features = np.array([1, 2])
         result = return_impacted_features(
@@ -192,8 +192,8 @@ class TestReturnImpactedFeatures:
         assert result.name == "roads_impacted"
 
     def test_unnamed_da_raises(self, feature_da_3events):
-        from ss_fha.exceptions import ComputationError
-        from ss_fha.core.geospatial import return_impacted_features
+        from flood_frequency_toolkit.exceptions import ComputationError
+        from flood_frequency_toolkit.core.geospatial import return_impacted_features
 
         da_unnamed = feature_da_3events.rename(None)
         with pytest.raises(ComputationError):
@@ -211,7 +211,7 @@ class TestReturnImpactedFeatures:
 class TestReturnNumberOfImpactedFeatures:
     def test_correct_counts(self, feature_da_3events):
         """Event 0 → 1 feature, Event 1 → 1 feature, Event 2 → 2 features."""
-        from ss_fha.core.geospatial import (
+        from flood_frequency_toolkit.core.geospatial import (
             return_impacted_features,
             return_number_of_impacted_features,
         )
@@ -229,7 +229,7 @@ class TestReturnNumberOfImpactedFeatures:
         assert int(result.sel(event_iloc=2).values) == 2
 
     def test_output_name(self, feature_da_3events):
-        from ss_fha.core.geospatial import (
+        from flood_frequency_toolkit.core.geospatial import (
             return_impacted_features,
             return_number_of_impacted_features,
         )
@@ -244,7 +244,7 @@ class TestReturnNumberOfImpactedFeatures:
         assert result.name == "n_roads_impacted"
 
     def test_output_has_only_event_iloc_dim(self, feature_da_3events):
-        from ss_fha.core.geospatial import (
+        from flood_frequency_toolkit.core.geospatial import (
             return_impacted_features,
             return_number_of_impacted_features,
         )
@@ -267,7 +267,7 @@ class TestComputeMinReturnPeriodOfFeatureImpact:
     def test_never_impacted_returns_nan(self):
         """A feature that is never impacted returns nan."""
         import pandas as pd
-        from ss_fha.core.geospatial import compute_min_return_period_of_feature_impact
+        from flood_frequency_toolkit.core.geospatial import compute_min_return_period_of_feature_impact
 
         s = pd.Series([False, False, False], name="feature_impacted")
         result = compute_min_return_period_of_feature_impact(
@@ -278,7 +278,7 @@ class TestComputeMinReturnPeriodOfFeatureImpact:
     def test_always_impacted_gives_short_return_period(self):
         """A feature impacted in every event has a short return period."""
         import pandas as pd
-        from ss_fha.core.geospatial import compute_min_return_period_of_feature_impact
+        from flood_frequency_toolkit.core.geospatial import compute_min_return_period_of_feature_impact
 
         n = 100
         s = pd.Series([True] * n, name="feature_impacted")
@@ -291,7 +291,7 @@ class TestComputeMinReturnPeriodOfFeatureImpact:
     def test_return_period_positive_when_impacted(self):
         """Any impacted feature returns a positive return period."""
         import pandas as pd
-        from ss_fha.core.geospatial import compute_min_return_period_of_feature_impact
+        from flood_frequency_toolkit.core.geospatial import compute_min_return_period_of_feature_impact
 
         s = pd.Series(
             [True, False, True, False, False], name="feature_impacted"

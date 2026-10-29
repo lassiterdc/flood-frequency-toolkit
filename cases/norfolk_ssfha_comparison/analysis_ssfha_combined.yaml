@@ -5,7 +5,7 @@ project_name: norfolk_ssfha_comparison
 study_area_config: cases/norfolk_ssfha_comparison/system.yaml
 
 # --- Output directory ---
-# Relative to project root (the ss-fha repo root).
+# Relative to project root (the flood-frequency-toolkit repo root).
 output_dir: outputs/norfolk_ssfha_comparison/
 
 # --- Weather record lengths ---

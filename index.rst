@@ -1,9 +1,9 @@
-.. ss-fha documentation master file, created by
+.. flood-frequency-toolkit documentation master file, created by
    sphinx-quickstart on Tue Feb 24 10:58:32 2026.
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-ss-fha documentation
+flood-frequency-toolkit documentation
 ====================
 
 Add your content using ``reStructuredText`` syntax. See the

@@ -1,22 +1,22 @@
 # to run:
 # if environment already exists, first run:
 # conda deactivate
-# conda env remove -n ss_fha
+# conda env remove -n fft
 # then:
 # either:
   # clean install, no use of :
-    # conda create -n ss_fha python=3.11 --no-default-packages
-    # conda activate ss_fha
+    # conda create -n fft python=3.11 --no-default-packages
+    # conda activate fft
     # export PYTHONNOUSERSITE=1
     # conda env update -f environment.yaml
   # create directly from environment yaml
     # module purge
     # module load {conda app, e.g., miniforge}
     # conda env create -f environment.yaml
-    # conda (or source) activate ss_fha
+    # conda (or source) activate fft
 # to use development version if git cloned:
   # python -m pip install -e .
-name: ss_fha
+name: fft
 channels:
   - conda-forge
   - bioconda

@@ -83,15 +83,15 @@ Run `pytest tests/ -v --durations=0` to get timing data for all tests — any ov
 
 ```bash
 # Fast tests only (default)
-conda run -n ss-fha pytest tests/ -v
+conda run -n fft pytest tests/ -v
 # Should complete in < 30 seconds, should skip slow tests
 
 # All tests including slow
-conda run -n ss-fha pytest tests/ -v --runslow
+conda run -n fft pytest tests/ -v --runslow
 # Should run everything
 
 # Verify timing
-conda run -n ss-fha pytest tests/ -v --runslow --durations=10
+conda run -n fft pytest tests/ -v --runslow --durations=10
 ```
 
 ## Documentation and Tracker Updates

@@ -40,14 +40,14 @@ Address audit findings: Section 1 item 2 (unseeded RNG), Section 2 items 1–3 (
 
 | File | Change |
 |------|--------|
-| `src/ss_fha/core/event_statistics.py` | (1) Add `rng: np.random.Generator` param to `bs_samp_of_univar_event_return_period` and `bs_samp_of_multivar_event_return_period`. Replace `np.random.choice(...)` with `rng.choice(...)` at lines 603 and 745. (2) Add `assign_dup_vals_max_return: bool` param to `compute_univariate_event_return_periods` and `compute_all_multivariate_return_period_combinations`. Remove `from ss_fha.constants import ASSIGN_DUP_VALS_MAX_RETURN`. Pass the param through to internal call sites. |
-| `src/ss_fha/analysis/event_comparison.py` | Thread `rng=np.random.default_rng(config.uncertainty.bootstrap_base_seed + sample_offset)` to the two bootstrap functions. Thread `assign_dup_vals_max_return=config.assign_dup_vals_max_return` to `compute_univariate_event_return_periods` and `compute_all_multivariate_return_period_combinations`. The exact `sample_offset` mechanism needs to be determined during implementation by reading how bootstrap iteration is structured in `run_event_comparison`. |
-| `src/ss_fha/core/geospatial.py` | Replace `from ss_fha.constants import ASSIGN_DUP_VALS_MAX_RETURN` with a function parameter `assign_dup_vals_max_return: bool` on `compute_min_return_period_of_feature_impact`. Thread from caller. |
-| `src/ss_fha/analysis/uncertainty.py` | Change `join="outer"` to `join="exact"` on line 327. Update the comment to explain: "All bootstrap samples must have the same return_pd_yrs axis. If they differ, this indicates varying event counts across samples — investigate the bootstrap resampling logic." |
-| `src/ss_fha/config/model.py` | (1) Add `assign_dup_vals_max_return: bool = False` to `SsfhaConfig`. (2) Add `@field_validator` for: `alpha` in [0, 1], `beta` in [0, 1], model validator `alpha + beta <= 1`, all `return_periods > 0`, `n_years_synthesized > 0`. (3) Add `@field_validator` to `UncertaintyConfig` for: all `bootstrap_quantiles` in (0, 1). (4) Add `@field_validator` to `BdsConfig` for: all `return_periods > 0`. |
-| `src/ss_fha/constants.py` | Remove `ASSIGN_DUP_VALS_MAX_RETURN: bool = False` and its docstring/comment. |
-| `src/ss_fha/runners/event_stats_runner.py` | Thread `assign_dup_vals_max_return=config.assign_dup_vals_max_return` through to `run_event_comparison`. |
-| `src/ss_fha/analysis/flood_hazard.py` | If `compute_min_return_period_of_feature_impact` is called here, thread `assign_dup_vals_max_return`. (Verify during implementation.) |
+| `src/flood_frequency_toolkit/core/event_statistics.py` | (1) Add `rng: np.random.Generator` param to `bs_samp_of_univar_event_return_period` and `bs_samp_of_multivar_event_return_period`. Replace `np.random.choice(...)` with `rng.choice(...)` at lines 603 and 745. (2) Add `assign_dup_vals_max_return: bool` param to `compute_univariate_event_return_periods` and `compute_all_multivariate_return_period_combinations`. Remove `from flood_frequency_toolkit.constants import ASSIGN_DUP_VALS_MAX_RETURN`. Pass the param through to internal call sites. |
+| `src/flood_frequency_toolkit/analysis/event_comparison.py` | Thread `rng=np.random.default_rng(config.uncertainty.bootstrap_base_seed + sample_offset)` to the two bootstrap functions. Thread `assign_dup_vals_max_return=config.assign_dup_vals_max_return` to `compute_univariate_event_return_periods` and `compute_all_multivariate_return_period_combinations`. The exact `sample_offset` mechanism needs to be determined during implementation by reading how bootstrap iteration is structured in `run_event_comparison`. |
+| `src/flood_frequency_toolkit/core/geospatial.py` | Replace `from flood_frequency_toolkit.constants import ASSIGN_DUP_VALS_MAX_RETURN` with a function parameter `assign_dup_vals_max_return: bool` on `compute_min_return_period_of_feature_impact`. Thread from caller. |
+| `src/flood_frequency_toolkit/analysis/uncertainty.py` | Change `join="outer"` to `join="exact"` on line 327. Update the comment to explain: "All bootstrap samples must have the same return_pd_yrs axis. If they differ, this indicates varying event counts across samples — investigate the bootstrap resampling logic." |
+| `src/flood_frequency_toolkit/config/model.py` | (1) Add `assign_dup_vals_max_return: bool = False` to `SsfhaConfig`. (2) Add `@field_validator` for: `alpha` in [0, 1], `beta` in [0, 1], model validator `alpha + beta <= 1`, all `return_periods > 0`, `n_years_synthesized > 0`. (3) Add `@field_validator` to `UncertaintyConfig` for: all `bootstrap_quantiles` in (0, 1). (4) Add `@field_validator` to `BdsConfig` for: all `return_periods > 0`. |
+| `src/flood_frequency_toolkit/constants.py` | Remove `ASSIGN_DUP_VALS_MAX_RETURN: bool = False` and its docstring/comment. |
+| `src/flood_frequency_toolkit/runners/event_stats_runner.py` | Thread `assign_dup_vals_max_return=config.assign_dup_vals_max_return` through to `run_event_comparison`. |
+| `src/flood_frequency_toolkit/analysis/flood_hazard.py` | If `compute_min_return_period_of_feature_impact` is called here, thread `assign_dup_vals_max_return`. (Verify during implementation.) |
 
 ### Test Files to Update
 
@@ -106,8 +106,8 @@ Before adding validators, search all test files for config dict construction and
 
 ```bash
 # Verify validators work
-conda run -n ss-fha python -c "
-from ss_fha.config.model import SsfhaConfig
+conda run -n fft python -c "
+from flood_frequency_toolkit.config.model import SsfhaConfig
 try:
     SsfhaConfig(alpha=-0.1, beta=0.5, ...)
     print('FAIL: should have rejected negative alpha')
@@ -116,10 +116,10 @@ except Exception as e:
 "
 
 # Full test suite
-conda run -n ss-fha pytest tests/ -v
+conda run -n fft pytest tests/ -v
 
 # Smoke test: event stats runner with seeded RNG produces deterministic output
-conda run -n ss-fha pytest tests/test_event_stats_workflow.py -v
+conda run -n fft pytest tests/test_event_stats_workflow.py -v
 ```
 
 ## Definition of Done

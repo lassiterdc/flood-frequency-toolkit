@@ -1,13 +1,13 @@
-"""Tests for ss_fha.paths (Work Chunk 01C)."""
+"""Tests for flood_frequency_toolkit.paths (Work Chunk 01C)."""
 
 import dataclasses
 from pathlib import Path
 
 import pytest
 
-from ss_fha.config import load_config_from_dict
-from ss_fha.exceptions import ConfigurationError
-from ss_fha.paths import ProjectPaths
+from flood_frequency_toolkit.config import load_config_from_dict
+from flood_frequency_toolkit.exceptions import ConfigurationError
+from flood_frequency_toolkit.paths import ProjectPaths
 
 # ---------------------------------------------------------------------------
 # Shared fixture helpers
@@ -53,8 +53,8 @@ def ssfha_config_no_output():
 
 
 def test_project_paths_importable():
-    """ProjectPaths can be imported from ss_fha.paths."""
-    from ss_fha.paths import ProjectPaths  # noqa: F401
+    """ProjectPaths can be imported from flood_frequency_toolkit.paths."""
+    from flood_frequency_toolkit.paths import ProjectPaths  # noqa: F401
 
 
 # ---------------------------------------------------------------------------

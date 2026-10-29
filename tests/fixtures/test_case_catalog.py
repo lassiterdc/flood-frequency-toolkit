@@ -1,4 +1,4 @@
-"""Test case catalog for ss-fha.
+"""Test case catalog for flood-frequency-toolkit.
 
 HydroShare integration is deferred until the HPC implementation phase.
 The ``retrieve_norfolk_case_study`` function is stubbed here so that the

@@ -1,4 +1,4 @@
-"""Unit tests for ss_fha.core.empirical_frequency_analysis (Work Chunk 02E).
+"""Unit tests for flood_frequency_toolkit.core.empirical_frequency_analysis (Work Chunk 02E).
 
 Validation strategy
 -------------------
@@ -23,12 +23,12 @@ import pandas as pd
 import pytest
 from scipy.stats.mstats import plotting_positions as scipy_plotting_positions
 
-from ss_fha.core.empirical_frequency_analysis import (
+from flood_frequency_toolkit.core.empirical_frequency_analysis import (
     calculate_positions,
     calculate_return_period,
     compute_return_periods_for_series,
 )
-from ss_fha.exceptions import SSFHAError
+from flood_frequency_toolkit.exceptions import SSFHAError
 
 
 # ---------------------------------------------------------------------------

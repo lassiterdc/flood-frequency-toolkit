@@ -229,3 +229,6 @@ hydroshare_data/*
 /AGENTS.md
 /CLAUDE.md
 # <<< local agent entrypoints <<<
+
+# Kept OUTSIDE the generated block above, which is rewritten automatically.
+/.hermes.md

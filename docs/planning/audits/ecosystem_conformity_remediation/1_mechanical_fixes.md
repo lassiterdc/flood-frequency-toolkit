@@ -18,7 +18,7 @@ Docs-only edits with a clear correct answer. No code changes. Spans two repos �
 
 ## File-by-File Change Plan
 
-### 1. `~/dev/agentic-workspace/prompts/workspaces/projects/ss-fha/architecture.md` (ecosystem copy — agents read this at startup)
+### 1. `~/dev/agentic-workspace/prompts/workspaces/projects/flood-frequency-toolkit/architecture.md` (ecosystem copy — agents read this at startup)
 
 - **Module table**: remove rows for `workflow.py`, `execution.py`, `resource_management.py`, `sensitivity_analysis.py`, `log.py` (unimplemented). Add row for `io/` (`zarr_io.py`, `gis_io.py`, `netcdf_io.py`).
 - **Add `## Active Plan References` section** (after Workflow Phases):
@@ -32,13 +32,13 @@ Docs-only edits with a clear correct answer. No code changes. Spans two repos �
   ```
   ## Gotchas
 
-  - **Dual `architecture.md` copies**: The ecosystem copy (`~/dev/agentic-workspace/prompts/workspaces/projects/ss-fha/architecture.md`) is what agents load at session startup. The workspace-local copy (`~/dev/ss-fha/architecture.md`) is tracked in git. Keep them in sync; if they diverge, the ecosystem copy takes precedence for agent behavior.
-  - **`compound` vs. `combined` historic event_type**: In legacy data, the historic event is typed `compound`; the refactored code expects `combined`. See `ss-fha_glossary.md` for the full mapping.
+  - **Dual `architecture.md` copies**: The ecosystem copy (`~/dev/agentic-workspace/prompts/workspaces/projects/flood-frequency-toolkit/architecture.md`) is what agents load at session startup. The workspace-local copy (`~/dev/flood-frequency-toolkit/architecture.md`) is tracked in git. Keep them in sync; if they diverge, the ecosystem copy takes precedence for agent behavior.
+  - **`compound` vs. `combined` historic event_type**: In legacy data, the historic event is typed `compound`; the refactored code expects `combined`. See `flood-frequency-toolkit_glossary.md` for the full mapping.
   - **Unimplemented modules**: `workflow.py`, `execution.py`, `resource_management.py`, `sensitivity_analysis.py`, and `log.py` are planned for work chunks 04A–04B and do not yet exist. Do not import from them.
   ```
 - **`utility_package_candidates` path**: leave as `~/dev/lassiterdc-utils/` (already correct in ecosystem copy — verify, no edit needed if confirmed).
 
-### 2. `/home/dcl3nd/dev/ss-fha/architecture.md` (workspace-local copy — repo root)
+### 2. `/home/dcl3nd/dev/flood-frequency-toolkit/architecture.md` (workspace-local copy — repo root)
 
 - Same module table, `Active Plan References`, and `Gotchas` additions as the ecosystem copy.
 - **`utility_package_candidates` path**: update from `~/dev/dcl-utils/` → `~/dev/lassiterdc-utils/`.
@@ -67,17 +67,17 @@ Docs-only edits with a clear correct answer. No code changes. Spans two repos �
 
 ```bash
 # Confirm unimplemented modules absent from src
-ls /home/dcl3nd/dev/ss-fha/src/ss_fha/
+ls /home/dcl3nd/dev/flood-frequency-toolkit/src/flood_frequency_toolkit/
 # Expected: no workflow.py, execution.py, resource_management.py, sensitivity_analysis.py, log.py
 
 # Confirm io/ exists
-ls /home/dcl3nd/dev/ss-fha/src/ss_fha/io/
+ls /home/dcl3nd/dev/flood-frequency-toolkit/src/flood_frequency_toolkit/io/
 
 # Confirm audit/ (singular) is gone
-ls /home/dcl3nd/dev/ss-fha/docs/planning/
+ls /home/dcl3nd/dev/flood-frequency-toolkit/docs/planning/
 
 # Confirm audits/completed/ exists
-ls /home/dcl3nd/dev/ss-fha/docs/planning/audits/
+ls /home/dcl3nd/dev/flood-frequency-toolkit/docs/planning/audits/
 
 # Confirm lassiterdc-utils path exists
 ls ~/dev/lassiterdc-utils/docs/planning/utility_package_candidates.md
@@ -100,6 +100,6 @@ Visual review: both `architecture.md` copies have module table, Active Plan Refe
 - [ ] `docs/planning/audit/` directory removed
 - [ ] `docs/planning/audits/completed/.gitkeep` created
 - [ ] Validation commands pass
-- [ ] Two commits: one in `ss-fha`, one in `agentic-workspace`
+- [ ] Two commits: one in `flood-frequency-toolkit`, one in `agentic-workspace`
 - [ ] Pre-completion accuracy check run
 - [ ] `completed: true` set in frontmatter; doc moved to `implemented/`; phase status in `master.md` updated

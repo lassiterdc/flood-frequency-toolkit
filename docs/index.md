@@ -1,4 +1,4 @@
-# SS-FHA
+# FLOOD-FREQUENCY-TOOLKIT
 
 Semicontinuous simulation-based flood hazard assessment framework.
 

@@ -1,4 +1,4 @@
-* ss-fha version:
+* flood-frequency-toolkit version:
 * Python version:
 * Operating System:
 

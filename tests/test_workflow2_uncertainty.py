@@ -32,8 +32,8 @@ from tests.utils_for_testing import assert_zarr_valid
 
 def _run_workflow1(tmp_path: Path) -> None:
     """Run flood hazard assessment to produce the combined.zarr prerequisite."""
-    from ss_fha.analysis.flood_hazard import run_flood_hazard
-    from ss_fha.config import load_system_config
+    from flood_frequency_toolkit.analysis.flood_hazard import run_flood_hazard
+    from flood_frequency_toolkit.config import load_system_config
 
     cfg = build_uncertainty_test_case(tmp_path)
     system_cfg = load_system_config(tmp_path / "system.yaml")
@@ -83,10 +83,10 @@ def test_iloc_mapping_events_per_year_varies() -> None:
 
 def test_prepare_bootstrap_run_succeeds(tmp_path: Path) -> None:
     """prepare_bootstrap_run passes when all inputs exist."""
-    from ss_fha.analysis.flood_hazard import run_flood_hazard
-    from ss_fha.analysis.uncertainty import prepare_bootstrap_run
-    from ss_fha.config import load_system_config
-    from ss_fha.paths import ProjectPaths
+    from flood_frequency_toolkit.analysis.flood_hazard import run_flood_hazard
+    from flood_frequency_toolkit.analysis.uncertainty import prepare_bootstrap_run
+    from flood_frequency_toolkit.config import load_system_config
+    from flood_frequency_toolkit.paths import ProjectPaths
 
     cfg = build_uncertainty_test_case(tmp_path)
     system_cfg = load_system_config(tmp_path / "system.yaml")
@@ -98,9 +98,9 @@ def test_prepare_bootstrap_run_succeeds(tmp_path: Path) -> None:
 
 def test_prepare_bootstrap_run_fails_without_uncertainty_config(tmp_path: Path) -> None:
     """prepare_bootstrap_run raises ConfigurationError when toggle_uncertainty=False."""
-    from ss_fha.analysis.uncertainty import prepare_bootstrap_run
-    from ss_fha.exceptions import ConfigurationError
-    from ss_fha.paths import ProjectPaths
+    from flood_frequency_toolkit.analysis.uncertainty import prepare_bootstrap_run
+    from flood_frequency_toolkit.exceptions import ConfigurationError
+    from flood_frequency_toolkit.paths import ProjectPaths
 
     cfg = build_minimal_test_case(tmp_path)  # toggle_uncertainty=False
     paths = ProjectPaths.from_config(cfg)
@@ -111,9 +111,9 @@ def test_prepare_bootstrap_run_fails_without_uncertainty_config(tmp_path: Path) 
 
 def test_prepare_bootstrap_run_fails_without_flood_probs(tmp_path: Path) -> None:
     """prepare_bootstrap_run raises DataError when Workflow 1 zarr is missing."""
-    from ss_fha.analysis.uncertainty import prepare_bootstrap_run
-    from ss_fha.exceptions import DataError
-    from ss_fha.paths import ProjectPaths
+    from flood_frequency_toolkit.analysis.uncertainty import prepare_bootstrap_run
+    from flood_frequency_toolkit.exceptions import DataError
+    from flood_frequency_toolkit.paths import ProjectPaths
 
     cfg = build_uncertainty_test_case(tmp_path)
     paths = ProjectPaths.from_config(cfg)
@@ -131,10 +131,10 @@ def test_prepare_bootstrap_run_fails_without_flood_probs(tmp_path: Path) -> None
 
 def test_run_bootstrap_sample_produces_valid_output(tmp_path: Path) -> None:
     """run_bootstrap_sample writes a zarr with return_pd_yrs coordinate."""
-    from ss_fha.analysis.flood_hazard import run_flood_hazard
-    from ss_fha.analysis.uncertainty import run_bootstrap_sample
-    from ss_fha.config import load_system_config
-    from ss_fha.paths import ProjectPaths
+    from flood_frequency_toolkit.analysis.flood_hazard import run_flood_hazard
+    from flood_frequency_toolkit.analysis.uncertainty import run_bootstrap_sample
+    from flood_frequency_toolkit.config import load_system_config
+    from flood_frequency_toolkit.paths import ProjectPaths
 
     cfg = build_uncertainty_test_case(tmp_path)
     system_cfg = load_system_config(tmp_path / "system.yaml")
@@ -163,10 +163,10 @@ def test_run_bootstrap_sample_produces_valid_output(tmp_path: Path) -> None:
 
 def test_run_bootstrap_sample_different_seeds_differ(tmp_path: Path) -> None:
     """Two different sample_ids produce different outputs (different RNG seeds)."""
-    from ss_fha.analysis.flood_hazard import run_flood_hazard
-    from ss_fha.analysis.uncertainty import run_bootstrap_sample
-    from ss_fha.config import load_system_config
-    from ss_fha.paths import ProjectPaths
+    from flood_frequency_toolkit.analysis.flood_hazard import run_flood_hazard
+    from flood_frequency_toolkit.analysis.uncertainty import run_bootstrap_sample
+    from flood_frequency_toolkit.config import load_system_config
+    from flood_frequency_toolkit.paths import ProjectPaths
 
     cfg = build_uncertainty_test_case(tmp_path)
     system_cfg = load_system_config(tmp_path / "system.yaml")
@@ -193,11 +193,11 @@ def test_run_bootstrap_sample_different_seeds_differ(tmp_path: Path) -> None:
 
 def test_run_bootstrap_sample_overwrite_false_raises(tmp_path: Path) -> None:
     """Running twice with overwrite=False raises DataError."""
-    from ss_fha.analysis.flood_hazard import run_flood_hazard
-    from ss_fha.analysis.uncertainty import run_bootstrap_sample
-    from ss_fha.config import load_system_config
-    from ss_fha.exceptions import DataError
-    from ss_fha.paths import ProjectPaths
+    from flood_frequency_toolkit.analysis.flood_hazard import run_flood_hazard
+    from flood_frequency_toolkit.analysis.uncertainty import run_bootstrap_sample
+    from flood_frequency_toolkit.config import load_system_config
+    from flood_frequency_toolkit.exceptions import DataError
+    from flood_frequency_toolkit.paths import ProjectPaths
 
     cfg = build_uncertainty_test_case(tmp_path)
     system_cfg = load_system_config(tmp_path / "system.yaml")
@@ -214,9 +214,9 @@ def test_run_bootstrap_sample_overwrite_false_raises(tmp_path: Path) -> None:
 
 def test_run_bootstrap_sample_missing_flood_probs_raises(tmp_path: Path) -> None:
     """run_bootstrap_sample raises DataError when flood probs zarr is absent."""
-    from ss_fha.analysis.uncertainty import run_bootstrap_sample
-    from ss_fha.exceptions import DataError
-    from ss_fha.paths import ProjectPaths
+    from flood_frequency_toolkit.analysis.uncertainty import run_bootstrap_sample
+    from flood_frequency_toolkit.exceptions import DataError
+    from flood_frequency_toolkit.paths import ProjectPaths
 
     cfg = build_uncertainty_test_case(tmp_path)
     paths = ProjectPaths.from_config(cfg)
@@ -233,10 +233,10 @@ def test_run_bootstrap_sample_missing_flood_probs_raises(tmp_path: Path) -> None
 
 def _run_all_samples(tmp_path: Path, n_samples: int = 5) -> tuple:
     """Run Workflow 1 + all bootstrap samples. Returns (cfg, paths)."""
-    from ss_fha.analysis.flood_hazard import run_flood_hazard
-    from ss_fha.analysis.uncertainty import run_bootstrap_sample
-    from ss_fha.config import load_system_config
-    from ss_fha.paths import ProjectPaths
+    from flood_frequency_toolkit.analysis.flood_hazard import run_flood_hazard
+    from flood_frequency_toolkit.analysis.uncertainty import run_bootstrap_sample
+    from flood_frequency_toolkit.config import load_system_config
+    from flood_frequency_toolkit.paths import ProjectPaths
 
     cfg = build_uncertainty_test_case(tmp_path)
     system_cfg = load_system_config(tmp_path / "system.yaml")
@@ -253,7 +253,7 @@ def _run_all_samples(tmp_path: Path, n_samples: int = 5) -> tuple:
 
 def test_combine_and_quantile_produces_valid_output(tmp_path: Path) -> None:
     """combine_and_quantile writes a zarr with quantile and spatial dims."""
-    from ss_fha.analysis.uncertainty import combine_and_quantile
+    from flood_frequency_toolkit.analysis.uncertainty import combine_and_quantile
 
     cfg, paths = _run_all_samples(tmp_path)
     output_path = combine_and_quantile(config=cfg, paths=paths, sim_type="combined", overwrite=False)
@@ -272,7 +272,7 @@ def test_combine_and_quantile_produces_valid_output(tmp_path: Path) -> None:
 
 def test_combine_and_quantile_no_na_values(tmp_path: Path) -> None:
     """Combined CI zarr has no NA values."""
-    from ss_fha.analysis.uncertainty import combine_and_quantile
+    from flood_frequency_toolkit.analysis.uncertainty import combine_and_quantile
 
     cfg, paths = _run_all_samples(tmp_path)
     output_path = combine_and_quantile(config=cfg, paths=paths, sim_type="combined", overwrite=False)
@@ -284,11 +284,11 @@ def test_combine_and_quantile_no_na_values(tmp_path: Path) -> None:
 
 def test_combine_and_quantile_missing_sample_raises(tmp_path: Path) -> None:
     """combine_and_quantile raises DataError when a sample zarr is missing."""
-    from ss_fha.analysis.flood_hazard import run_flood_hazard
-    from ss_fha.analysis.uncertainty import combine_and_quantile, run_bootstrap_sample
-    from ss_fha.config import load_system_config
-    from ss_fha.exceptions import DataError
-    from ss_fha.paths import ProjectPaths
+    from flood_frequency_toolkit.analysis.flood_hazard import run_flood_hazard
+    from flood_frequency_toolkit.analysis.uncertainty import combine_and_quantile, run_bootstrap_sample
+    from flood_frequency_toolkit.config import load_system_config
+    from flood_frequency_toolkit.exceptions import DataError
+    from flood_frequency_toolkit.paths import ProjectPaths
 
     cfg = build_uncertainty_test_case(tmp_path)
     system_cfg = load_system_config(tmp_path / "system.yaml")
@@ -307,8 +307,8 @@ def test_combine_and_quantile_missing_sample_raises(tmp_path: Path) -> None:
 
 def test_combine_and_quantile_overwrite_false_raises(tmp_path: Path) -> None:
     """Running combine twice with overwrite=False raises DataError."""
-    from ss_fha.analysis.uncertainty import combine_and_quantile
-    from ss_fha.exceptions import DataError
+    from flood_frequency_toolkit.analysis.uncertainty import combine_and_quantile
+    from flood_frequency_toolkit.exceptions import DataError
 
     cfg, paths = _run_all_samples(tmp_path)
     combine_and_quantile(config=cfg, paths=paths, sim_type="combined", overwrite=False)
@@ -326,9 +326,9 @@ def test_bootstrap_runner_returns_zero_on_success(tmp_path: Path) -> None:
     """bootstrap_runner.py returns exit code 0 for a valid sample run."""
     import subprocess
 
-    from ss_fha.analysis.flood_hazard import run_flood_hazard
-    from ss_fha.config import load_system_config
-    from ss_fha.paths import ProjectPaths
+    from flood_frequency_toolkit.analysis.flood_hazard import run_flood_hazard
+    from flood_frequency_toolkit.config import load_system_config
+    from flood_frequency_toolkit.paths import ProjectPaths
 
     cfg = build_uncertainty_test_case(tmp_path)
     system_cfg = load_system_config(tmp_path / "system.yaml")
@@ -340,10 +340,10 @@ def test_bootstrap_runner_returns_zero_on_success(tmp_path: Path) -> None:
             "conda",
             "run",
             "-n",
-            "ss-fha",
+            "flood-frequency-toolkit",
             "python",
             "-m",
-            "ss_fha.runners.bootstrap_runner",
+            "flood_frequency_toolkit.runners.bootstrap_runner",
             "--config",
             str(tmp_path / "analysis.yaml"),
             "--sample-id",
@@ -373,10 +373,10 @@ def test_bootstrap_combine_runner_returns_zero_on_success(tmp_path: Path) -> Non
             "conda",
             "run",
             "-n",
-            "ss-fha",
+            "flood-frequency-toolkit",
             "python",
             "-m",
-            "ss_fha.runners.bootstrap_combine_runner",
+            "flood_frequency_toolkit.runners.bootstrap_combine_runner",
             "--config",
             str(tmp_path / "analysis.yaml"),
             "--sim-type",
@@ -402,10 +402,10 @@ def test_bootstrap_runner_returns_nonzero_for_missing_config(tmp_path: Path) -> 
             "conda",
             "run",
             "-n",
-            "ss-fha",
+            "flood-frequency-toolkit",
             "python",
             "-m",
-            "ss_fha.runners.bootstrap_runner",
+            "flood_frequency_toolkit.runners.bootstrap_runner",
             "--config",
             str(tmp_path / "nonexistent.yaml"),
             "--sample-id",

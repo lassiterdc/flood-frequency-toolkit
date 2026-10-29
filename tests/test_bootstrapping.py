@@ -1,4 +1,4 @@
-"""Unit tests for ss_fha.core.bootstrapping (Work Chunk 02B).
+"""Unit tests for flood_frequency_toolkit.core.bootstrapping (Work Chunk 02B).
 
 Validation strategy
 -------------------
@@ -22,14 +22,14 @@ import pandas as pd
 import pytest
 import xarray as xr
 
-from ss_fha.core.bootstrapping import (
+from flood_frequency_toolkit.core.bootstrapping import (
     assemble_bootstrap_sample,
     compute_return_period_indexed_depths,
     draw_bootstrap_years,
     sort_last_dim,
 )
-from ss_fha.core.empirical_frequency_analysis import calculate_positions, calculate_return_period
-from ss_fha.exceptions import SSFHAError
+from flood_frequency_toolkit.core.empirical_frequency_analysis import calculate_positions, calculate_return_period
+from flood_frequency_toolkit.exceptions import SSFHAError
 
 
 # ---------------------------------------------------------------------------

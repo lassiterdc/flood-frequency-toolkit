@@ -39,7 +39,7 @@ def event_stats_case(tmp_path: Path):
 
 def test_run_event_comparison_zarr(event_stats_case, tmp_path: Path) -> None:
     """run_event_comparison writes a valid zarr DataTree."""
-    from ss_fha.analysis.event_comparison import run_event_comparison
+    from flood_frequency_toolkit.analysis.event_comparison import run_event_comparison
 
     config = event_stats_case
     output_path = run_event_comparison(
@@ -58,7 +58,7 @@ def test_run_event_comparison_zarr(event_stats_case, tmp_path: Path) -> None:
 
 def test_run_event_comparison_netcdf(event_stats_case, tmp_path: Path) -> None:
     """run_event_comparison writes a valid NetCDF DataTree."""
-    from ss_fha.analysis.event_comparison import run_event_comparison
+    from flood_frequency_toolkit.analysis.event_comparison import run_event_comparison
 
     config = event_stats_case
     output_path = run_event_comparison(
@@ -77,8 +77,8 @@ def test_run_event_comparison_netcdf(event_stats_case, tmp_path: Path) -> None:
 
 def test_run_event_comparison_overwrite_false_raises(event_stats_case) -> None:
     """run_event_comparison raises DataError if output exists and overwrite=False."""
-    from ss_fha.analysis.event_comparison import run_event_comparison
-    from ss_fha.exceptions import DataError
+    from flood_frequency_toolkit.analysis.event_comparison import run_event_comparison
+    from flood_frequency_toolkit.exceptions import DataError
 
     config = event_stats_case
     # First write succeeds
@@ -90,7 +90,7 @@ def test_run_event_comparison_overwrite_false_raises(event_stats_case) -> None:
 
 def test_run_event_comparison_overwrite_true(event_stats_case) -> None:
     """run_event_comparison succeeds on second write when overwrite=True."""
-    from ss_fha.analysis.event_comparison import run_event_comparison
+    from flood_frequency_toolkit.analysis.event_comparison import run_event_comparison
 
     config = event_stats_case
     run_event_comparison(config=config, output_format="zarr", overwrite=False)
@@ -106,8 +106,8 @@ def test_run_event_comparison_overwrite_true(event_stats_case) -> None:
 
 def test_comparative_analysis_rejected(tmp_path: Path) -> None:
     """run_event_comparison raises ConfigurationError for comparative analysis configs."""
-    from ss_fha.analysis.event_comparison import run_event_comparison
-    from ss_fha.exceptions import ConfigurationError
+    from flood_frequency_toolkit.analysis.event_comparison import run_event_comparison
+    from flood_frequency_toolkit.exceptions import ConfigurationError
     from tests.fixtures.test_case_builder import build_minimal_test_case
 
     # build_minimal_test_case creates is_comparative_analysis=True
@@ -120,10 +120,10 @@ def test_missing_timeseries_rejected(tmp_path: Path) -> None:
     """run_event_comparison raises ConfigurationError when sim_event_timeseries is None."""
     import yaml
 
-    from ss_fha.analysis.event_comparison import run_event_comparison
-    from ss_fha.config import load_config_from_dict
-    from ss_fha.exceptions import ConfigurationError
-    from ss_fha.io.zarr_io import write_zarr
+    from flood_frequency_toolkit.analysis.event_comparison import run_event_comparison
+    from flood_frequency_toolkit.config import load_config_from_dict
+    from flood_frequency_toolkit.exceptions import ConfigurationError
+    from flood_frequency_toolkit.io.zarr_io import write_zarr
     from tests.fixtures.test_case_builder import (
         build_synthetic_event_summaries,
         build_synthetic_iloc_mapping,
@@ -213,7 +213,7 @@ def test_runner_cli_end_to_end(event_stats_case, tmp_path: Path) -> None:
         [
             sys.executable,
             "-m",
-            "ss_fha.runners.event_stats_runner",
+            "flood_frequency_toolkit.runners.event_stats_runner",
             "--config",
             str(analysis_yaml),
             "--system-config",

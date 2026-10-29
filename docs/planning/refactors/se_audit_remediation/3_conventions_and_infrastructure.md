@@ -40,11 +40,11 @@ Address audit findings: Section 2 item 5 (dimension name constants), Section 4 i
 
 | File | Change |
 |------|--------|
-| `src/ss_fha/constants.py` | Add dimension name constants section: `DIM_EVENT_ILOC = "event_iloc"`, `DIM_X = "x"`, `DIM_Y = "y"`, `DIM_RETURN_PD_YRS = "return_pd_yrs"`, `DIM_QUANTILE = "quantile"`, `DIM_SAMPLE_ID = "sample_id"`. Include a docstring block explaining the convention and when to add new names. |
-| `src/ss_fha/io/zarr_io.py` | (1) Update `default_zarr_encoding` to accept an optional `dtypes: dict[str, str]` parameter that pins dtype per variable. Add a `DEFAULT_DTYPES` constant mapping common variable patterns to dtypes: flood depth → float64, return period → float64, CDF → float64, boolean masks → uint8. (2) Add a `write_zarr_with_provenance` function (or modify `write_zarr`) that accepts an optional `config` parameter, computes `hashlib.sha256(json.dumps(config.model_dump(), sort_keys=True, default=str).encode()).hexdigest()`, and writes it to the zarr's root `attrs["config_sha256"]`. |
-| `src/ss_fha/analysis/flood_hazard.py` | Pass config to `write_zarr` for provenance (if `write_zarr` API is modified) or call the provenance function after writing. |
-| `src/ss_fha/analysis/uncertainty.py` | Same — pass config for provenance on bootstrap sample and combined zarr writes. |
-| `src/ss_fha/analysis/event_comparison.py` | Same — pass config for provenance on event statistics output. |
+| `src/flood_frequency_toolkit/constants.py` | Add dimension name constants section: `DIM_EVENT_ILOC = "event_iloc"`, `DIM_X = "x"`, `DIM_Y = "y"`, `DIM_RETURN_PD_YRS = "return_pd_yrs"`, `DIM_QUANTILE = "quantile"`, `DIM_SAMPLE_ID = "sample_id"`. Include a docstring block explaining the convention and when to add new names. |
+| `src/flood_frequency_toolkit/io/zarr_io.py` | (1) Update `default_zarr_encoding` to accept an optional `dtypes: dict[str, str]` parameter that pins dtype per variable. Add a `DEFAULT_DTYPES` constant mapping common variable patterns to dtypes: flood depth → float64, return period → float64, CDF → float64, boolean masks → uint8. (2) Add a `write_zarr_with_provenance` function (or modify `write_zarr`) that accepts an optional `config` parameter, computes `hashlib.sha256(json.dumps(config.model_dump(), sort_keys=True, default=str).encode()).hexdigest()`, and writes it to the zarr's root `attrs["config_sha256"]`. |
+| `src/flood_frequency_toolkit/analysis/flood_hazard.py` | Pass config to `write_zarr` for provenance (if `write_zarr` API is modified) or call the provenance function after writing. |
+| `src/flood_frequency_toolkit/analysis/uncertainty.py` | Same — pass config for provenance on bootstrap sample and combined zarr writes. |
+| `src/flood_frequency_toolkit/analysis/event_comparison.py` | Same — pass config for provenance on event statistics output. |
 | `tests/conftest.py` | Fix `full_config` fixture: add `"bootstrap_quantiles": [0.05, 0.50, 0.95]` to uncertainty dict, add `"alpha": 0.375, "beta": 0.375`, add `"assign_dup_vals_max_return": False` (from Phase 2), add required fields for non-comparative SsfhaConfig (`"weather_event_indices"`, `"event_statistic_variables"`). Verify the fixture actually instantiates without error by adding a simple assertion at the end. |
 | `tests/test_event_stats_workflow.py` | (1) `test_runner_cli_end_to_end`: add `SystemConfig.model_validate(system_dict)` before writing system YAML to `tmp_path`. (2) `test_missing_timeseries_rejected`: refactor to use `test_case_builder` infrastructure instead of inline synthetic data construction. |
 
@@ -85,16 +85,16 @@ A reasonable default mapping:
 
 ```bash
 # Verify dimension constants are importable
-conda run -n ss-fha python -c "from ss_fha.constants import DIM_EVENT_ILOC, DIM_RETURN_PD_YRS; print('OK')"
+conda run -n fft python -c "from flood_frequency_toolkit.constants import DIM_EVENT_ILOC, DIM_RETURN_PD_YRS; print('OK')"
 
 # Verify full_config fixture works
-conda run -n ss-fha pytest tests/conftest.py --co -q  # collection should not error
+conda run -n fft pytest tests/conftest.py --co -q  # collection should not error
 
 # Full test suite
-conda run -n ss-fha pytest tests/ -v
+conda run -n fft pytest tests/ -v
 
 # Verify config hash in output
-conda run -n ss-fha python -c "
+conda run -n fft python -c "
 import zarr
 # (only works after a test run that produces output zarrs)
 "

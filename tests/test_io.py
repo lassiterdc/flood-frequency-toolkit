@@ -1,4 +1,4 @@
-"""Tests for ss_fha.io (Work Chunk 01D).
+"""Tests for flood_frequency_toolkit.io (Work Chunk 01D).
 
 All tests use synthetic in-memory data — no real case study files required.
 GIS tests write temporary shapefiles to pytest's tmp_path.
@@ -78,8 +78,8 @@ def watershed_shapefile(tmp_path, reference_ds_with_crs):
 # ---------------------------------------------------------------------------
 
 def test_io_package_importable():
-    """ss_fha.io package and all public names are importable."""
-    from ss_fha.io import (  # noqa: F401
+    """flood_frequency_toolkit.io package and all public names are importable."""
+    from flood_frequency_toolkit.io import (  # noqa: F401
         create_mask_from_polygon,
         default_zarr_encoding,
         delete_zarr,
@@ -98,7 +98,7 @@ def test_io_package_importable():
 
 def test_zarr_encoding_defaults(simple_dataset):
     """default_zarr_encoding returns a dict with entries for numeric vars."""
-    from ss_fha.io.zarr_io import default_zarr_encoding
+    from flood_frequency_toolkit.io.zarr_io import default_zarr_encoding
 
     encoding = default_zarr_encoding(simple_dataset, compression_level=5)
 
@@ -109,7 +109,7 @@ def test_zarr_encoding_defaults(simple_dataset):
 
 def test_zarr_encoding_has_compressor(simple_dataset):
     """Encoding entries for numeric vars include a 'compressors' key."""
-    from ss_fha.io.zarr_io import default_zarr_encoding
+    from flood_frequency_toolkit.io.zarr_io import default_zarr_encoding
 
     encoding = default_zarr_encoding(simple_dataset, compression_level=3)
     assert "compressors" in encoding["flood_depth"]
@@ -122,7 +122,7 @@ def test_zarr_encoding_has_compressor(simple_dataset):
 
 def test_zarr_roundtrip(tmp_path, simple_dataset):
     """write_zarr then read_zarr preserves structure, dtypes, and values."""
-    from ss_fha.io.zarr_io import read_zarr, write_zarr
+    from flood_frequency_toolkit.io.zarr_io import read_zarr, write_zarr
 
     zarr_path = tmp_path / "test.zarr"
     write_zarr(simple_dataset, zarr_path, encoding=None, overwrite=False)
@@ -142,7 +142,7 @@ def test_zarr_roundtrip(tmp_path, simple_dataset):
 
 def test_zarr_roundtrip_preserves_coords(tmp_path, simple_dataset):
     """Zarr roundtrip preserves coordinate values."""
-    from ss_fha.io.zarr_io import read_zarr, write_zarr
+    from flood_frequency_toolkit.io.zarr_io import read_zarr, write_zarr
 
     zarr_path = tmp_path / "coords.zarr"
     write_zarr(simple_dataset, zarr_path, encoding=None, overwrite=False)
@@ -158,8 +158,8 @@ def test_zarr_roundtrip_preserves_coords(tmp_path, simple_dataset):
 
 def test_zarr_overwrite_raises(tmp_path, simple_dataset):
     """write_zarr raises DataError when path exists and overwrite=False."""
-    from ss_fha.exceptions import DataError
-    from ss_fha.io.zarr_io import write_zarr
+    from flood_frequency_toolkit.exceptions import DataError
+    from flood_frequency_toolkit.io.zarr_io import write_zarr
 
     zarr_path = tmp_path / "overwrite_test.zarr"
     write_zarr(simple_dataset, zarr_path, encoding=None, overwrite=False)
@@ -172,7 +172,7 @@ def test_zarr_overwrite_raises(tmp_path, simple_dataset):
 
 def test_zarr_overwrite_true_replaces(tmp_path, simple_dataset):
     """write_zarr with overwrite=True silently replaces the existing store."""
-    from ss_fha.io.zarr_io import read_zarr, write_zarr
+    from flood_frequency_toolkit.io.zarr_io import read_zarr, write_zarr
 
     zarr_path = tmp_path / "replace.zarr"
     write_zarr(simple_dataset, zarr_path, encoding=None, overwrite=False)
@@ -189,8 +189,8 @@ def test_zarr_overwrite_true_replaces(tmp_path, simple_dataset):
 
 def test_read_zarr_missing_path_raises(tmp_path):
     """read_zarr raises DataError when path does not exist."""
-    from ss_fha.exceptions import DataError
-    from ss_fha.io.zarr_io import read_zarr
+    from flood_frequency_toolkit.exceptions import DataError
+    from flood_frequency_toolkit.io.zarr_io import read_zarr
 
     with pytest.raises(DataError):
         read_zarr(tmp_path / "nonexistent.zarr", chunks=None)
@@ -202,7 +202,7 @@ def test_read_zarr_missing_path_raises(tmp_path):
 
 def test_delete_zarr_removes_directory(tmp_path, simple_dataset):
     """delete_zarr removes an existing zarr store."""
-    from ss_fha.io.zarr_io import delete_zarr, write_zarr
+    from flood_frequency_toolkit.io.zarr_io import delete_zarr, write_zarr
 
     zarr_path = tmp_path / "to_delete.zarr"
     write_zarr(simple_dataset, zarr_path, encoding=None, overwrite=False)
@@ -214,7 +214,7 @@ def test_delete_zarr_removes_directory(tmp_path, simple_dataset):
 
 def test_delete_zarr_nonexistent_is_noop(tmp_path):
     """delete_zarr on a non-existent path does nothing (no error)."""
-    from ss_fha.io.zarr_io import delete_zarr
+    from flood_frequency_toolkit.io.zarr_io import delete_zarr
 
     delete_zarr(tmp_path / "ghost.zarr", timeout_s=5)  # should not raise
 
@@ -225,7 +225,7 @@ def test_delete_zarr_nonexistent_is_noop(tmp_path):
 
 def test_netcdf_roundtrip(tmp_path, simple_dataset):
     """write_compressed_netcdf then read_netcdf preserves values."""
-    from ss_fha.io.netcdf_io import read_netcdf, write_compressed_netcdf
+    from flood_frequency_toolkit.io.netcdf_io import read_netcdf, write_compressed_netcdf
 
     nc_path = tmp_path / "test.nc"
     write_compressed_netcdf(simple_dataset, nc_path, encoding=None)
@@ -246,8 +246,8 @@ def test_netcdf_roundtrip(tmp_path, simple_dataset):
 
 def test_read_netcdf_missing_path_raises(tmp_path):
     """read_netcdf raises DataError when path does not exist."""
-    from ss_fha.exceptions import DataError
-    from ss_fha.io.netcdf_io import read_netcdf
+    from flood_frequency_toolkit.exceptions import DataError
+    from flood_frequency_toolkit.io.netcdf_io import read_netcdf
 
     with pytest.raises(DataError):
         read_netcdf(tmp_path / "nonexistent.nc")
@@ -262,7 +262,7 @@ def test_load_geospatial_data_from_file(watershed_shapefile):
     pytest.importorskip("geopandas")
     import geopandas as gpd
 
-    from ss_fha.io.gis_io import load_geospatial_data_from_file
+    from flood_frequency_toolkit.io.gis_io import load_geospatial_data_from_file
 
     shp_path, _ = watershed_shapefile
     gdf = load_geospatial_data_from_file(shp_path, clip_to=None)
@@ -273,8 +273,8 @@ def test_load_geospatial_data_from_file(watershed_shapefile):
 
 def test_load_geospatial_data_from_file_missing_path_raises(tmp_path):
     """load_geospatial_data_from_file raises DataError when path does not exist."""
-    from ss_fha.exceptions import DataError
-    from ss_fha.io.gis_io import load_geospatial_data_from_file
+    from flood_frequency_toolkit.exceptions import DataError
+    from flood_frequency_toolkit.io.gis_io import load_geospatial_data_from_file
 
     with pytest.raises(DataError):
         load_geospatial_data_from_file(tmp_path / "nonexistent.shp", clip_to=None)
@@ -282,8 +282,8 @@ def test_load_geospatial_data_from_file_missing_path_raises(tmp_path):
 
 def test_load_geospatial_data_from_file_unsupported_extension_raises(tmp_path):
     """load_geospatial_data_from_file raises DataError for unsupported extension."""
-    from ss_fha.exceptions import DataError
-    from ss_fha.io.gis_io import load_geospatial_data_from_file
+    from flood_frequency_toolkit.exceptions import DataError
+    from flood_frequency_toolkit.io.gis_io import load_geospatial_data_from_file
 
     bad_path = tmp_path / "data.kml"
     bad_path.touch()  # file must exist to pass the extension check first
@@ -299,7 +299,7 @@ def test_load_geospatial_data_from_file_clip_to(tmp_path, reference_ds_with_crs)
     import geopandas as gpd
     from shapely.geometry import box
 
-    from ss_fha.io.gis_io import load_geospatial_data_from_file
+    from flood_frequency_toolkit.io.gis_io import load_geospatial_data_from_file
 
     ds = reference_ds_with_crs
     xmin, xmax = float(ds.x.min()), float(ds.x.max())
@@ -331,7 +331,7 @@ def test_create_mask_from_polygon_filepath(watershed_shapefile, reference_ds_wit
     pytest.importorskip("rioxarray")
     import xarray as xr
 
-    from ss_fha.io.gis_io import create_mask_from_polygon
+    from flood_frequency_toolkit.io.gis_io import create_mask_from_polygon
 
     shp_path, _ = watershed_shapefile
     mask = create_mask_from_polygon(
@@ -351,7 +351,7 @@ def test_create_mask_from_polygon_full_coverage_filepath(
     """File-path polygon covering entire grid produces an all-True mask."""
     pytest.importorskip("rioxarray")
 
-    from ss_fha.io.gis_io import create_mask_from_polygon
+    from flood_frequency_toolkit.io.gis_io import create_mask_from_polygon
 
     shp_path, _ = watershed_shapefile
     mask = create_mask_from_polygon(
@@ -370,7 +370,7 @@ def test_create_mask_from_polygon_geodataframe(
     pytest.importorskip("rioxarray")
     import xarray as xr
 
-    from ss_fha.io.gis_io import create_mask_from_polygon, load_geospatial_data_from_file
+    from flood_frequency_toolkit.io.gis_io import create_mask_from_polygon, load_geospatial_data_from_file
 
     shp_path, _ = watershed_shapefile
     gdf = load_geospatial_data_from_file(shp_path, clip_to=None)
@@ -393,7 +393,7 @@ def test_create_mask_from_polygon_geoseries(
     pytest.importorskip("rioxarray")
     import xarray as xr
 
-    from ss_fha.io.gis_io import create_mask_from_polygon, load_geospatial_data_from_file
+    from flood_frequency_toolkit.io.gis_io import create_mask_from_polygon, load_geospatial_data_from_file
 
     shp_path, _ = watershed_shapefile
     gdf = load_geospatial_data_from_file(shp_path, clip_to=None)
@@ -416,7 +416,7 @@ def test_create_mask_from_polygon_shapely_geometry(
     pytest.importorskip("rioxarray")
     import xarray as xr
 
-    from ss_fha.io.gis_io import create_mask_from_polygon, load_geospatial_data_from_file
+    from flood_frequency_toolkit.io.gis_io import create_mask_from_polygon, load_geospatial_data_from_file
 
     shp_path, _ = watershed_shapefile
     gdf = load_geospatial_data_from_file(shp_path, clip_to=None)
@@ -438,8 +438,8 @@ def test_create_mask_from_polygon_missing_file_raises(
     tmp_path, reference_ds_with_crs
 ):
     """create_mask_from_polygon raises DataError when file path does not exist."""
-    from ss_fha.exceptions import DataError
-    from ss_fha.io.gis_io import create_mask_from_polygon
+    from flood_frequency_toolkit.exceptions import DataError
+    from flood_frequency_toolkit.io.gis_io import create_mask_from_polygon
 
     with pytest.raises(DataError):
         create_mask_from_polygon(
@@ -453,8 +453,8 @@ def test_create_mask_from_polygon_unsupported_type_raises(
     reference_ds_with_crs,
 ):
     """create_mask_from_polygon raises DataError for unsupported input type."""
-    from ss_fha.exceptions import DataError
-    from ss_fha.io.gis_io import create_mask_from_polygon
+    from flood_frequency_toolkit.exceptions import DataError
+    from flood_frequency_toolkit.io.gis_io import create_mask_from_polygon
 
     with pytest.raises(DataError, match="Unsupported polygon input type"):
         create_mask_from_polygon(
@@ -469,8 +469,8 @@ def test_create_mask_from_polygon_missing_spatial_coord_raises(
 ):
     """create_mask_from_polygon raises DataError if reference_ds lacks x/y."""
     pytest.importorskip("rioxarray")
-    from ss_fha.exceptions import DataError
-    from ss_fha.io.gis_io import create_mask_from_polygon
+    from flood_frequency_toolkit.exceptions import DataError
+    from flood_frequency_toolkit.io.gis_io import create_mask_from_polygon
 
     shp_path, _ = watershed_shapefile
     ds_no_x = simple_dataset.drop_vars("x")
@@ -494,7 +494,7 @@ def test_rasterize_features_sequential_ids(
     pytest.importorskip("rioxarray")
     import xarray as xr
 
-    from ss_fha.io.gis_io import load_geospatial_data_from_file, rasterize_features
+    from flood_frequency_toolkit.io.gis_io import load_geospatial_data_from_file, rasterize_features
 
     shp_path, _ = watershed_shapefile
     gdf = load_geospatial_data_from_file(shp_path, clip_to=None)
@@ -512,8 +512,8 @@ def test_rasterize_features_bad_field_raises(
 ):
     """rasterize_features raises DataError when field not in GeoDataFrame."""
     pytest.importorskip("rioxarray")
-    from ss_fha.exceptions import DataError
-    from ss_fha.io.gis_io import load_geospatial_data_from_file, rasterize_features
+    from flood_frequency_toolkit.exceptions import DataError
+    from flood_frequency_toolkit.io.gis_io import load_geospatial_data_from_file, rasterize_features
 
     shp_path, _ = watershed_shapefile
     gdf = load_geospatial_data_from_file(shp_path, clip_to=None)

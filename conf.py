@@ -6,7 +6,7 @@
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
-project = 'ss-fha'
+project = 'flood-frequency-toolkit'
 copyright = '2026, Daniel Lassiter'
 author = 'Daniel Lassiter'
 release = '0.1.0'

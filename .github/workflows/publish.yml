@@ -45,7 +45,7 @@ jobs:
     # and restrict deployment to v* tags.
     environment:
       name: pypi
-      url: https://pypi.org/p/ss-fha
+      url: https://pypi.org/p/flood-frequency-toolkit
     steps:
       - name: Download distribution
         uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131 # v7.0.0

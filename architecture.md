@@ -1,6 +1,6 @@
 # Architecture
 
-Reference document for the SS-FHA codebase. Load this alongside `CONTRIBUTING.md` at the start of any AI-assisted session.
+Reference document for the FLOOD-FREQUENCY-TOOLKIT codebase. Load this alongside `CONTRIBUTING.md` at the start of any AI-assisted session.
 
 ---
 
@@ -20,7 +20,7 @@ The primary purpose of this codebase is computing flood hazard and flood hazard 
 | `execution.py` | Execution strategies: LocalConcurrentExecutor, SlurmExecutor (no Serial — set max_workers=1 to serialize) |
 | `resource_management.py` | CPU/GPU/memory allocation for HPC |
 | `sensitivity_analysis.py` | Parameter sweep orchestration with sub-analyses |
-| `paths.py` | Dataclasses for organized output path management (e.g., `ProjectPaths`). Class names should reflect ss-fha's domain, not TRITON-SWMM_toolkit's names. |
+| `paths.py` | Dataclasses for organized output path management (e.g., `ProjectPaths`). Class names should reflect flood-frequency-toolkit's domain, not TRITON-SWMM_toolkit's names. |
 | `analysis/` | Workflow orchestration modules — bridge between I/O (`zarr_io`, `gis_io`) and core computation (`flood_probability`, `bootstrapping`, etc.). Contains no computation of its own. |
 | `runners/` | CLI entry points for Snakemake-invoked workflow execution. Each runner uses argparse, logs to stdout, and emits a structured completion marker. |
 | `log.py` | JSON-persisted logging with LogField[T] pattern |
@@ -51,11 +51,11 @@ The full pipeline is orchestrated by Snakemake via `workflow.py`:
 
 ### TRITON-SWMM_toolkit
 
-This is a repository for running large ensembles of hydrodynamic models. The current codebase (ss-fha) is for flood hazard quantification using the model outputs from that code. It deploys approaches that we can emulate and/or improve upon.
+This is a repository for running large ensembles of hydrodynamic models. The current codebase (flood-frequency-toolkit) is for flood hazard quantification using the model outputs from that code. It deploys approaches that we can emulate and/or improve upon.
 
 **NOTE**: This library IS in the current environment at `/home/dcl3nd/dev/TRITON-SWMM_toolkit/`, so if any functions or classes can be used as-is, they should be imported rather than duplicated here.
 
-**When a TRITON-SWMM_toolkit function violates this project's design philosophy** (e.g., has default arguments that should be explicit, doesn't raise `DataError` on failure, or doesn't match the expected signature), write a fresh ss-fha implementation instead of importing. When doing so:
+**When a TRITON-SWMM_toolkit function violates this project's design philosophy** (e.g., has default arguments that should be explicit, doesn't raise `DataError` on failure, or doesn't match the expected signature), write a fresh flood-frequency-toolkit implementation instead of importing. When doing so:
 1. Note the new function in `~/dev/dcl-utils/docs/planning/utility_package_candidates.md`, including which TRITON-SWMM_toolkit function it is analogous to
 2. Do not add a comment in the source code referencing the toolkit — the utility candidates list is the canonical record
 
@@ -90,6 +90,6 @@ Reference files for patterns:
 
 - `n_years_synthesized` is 1000 for Norfolk but must never be inferred from `len(ds.year)` (which gives 954)
 - `n_years_observed` (18 for Norfolk) lives inside `PPCCTConfig`, not top-level on `SsfhaConfig`
-- Integer variables 156, 171, 170, 155, 140, 141 in time series NetCDFs are SWMM subcatchment IDs; ss-fha uses `mm_per_hr` (domain-wide avg rainfall intensity)
+- Integer variables 156, 171, 170, 155, 140, 141 in time series NetCDFs are SWMM subcatchment IDs; flood-frequency-toolkit uses `mm_per_hr` (domain-wide avg rainfall intensity)
 - zarr V3 codecs cannot serialize dask-backed masked arrays from `.where(mask)`; call `.compute()` before `write_zarr()` — but beware full-scale memory implications (~25 GB at 3700 events x 550x550 grid)
 - zarr v3 string coordinates (dtype `object` or `str`) emit `UnstableSpecificationWarning` for `FixedLengthUTF32` encoding; use `ds[coord].encoding["dtype"] = str` to get vlen_utf8 instead, which suppresses the warning and produces spec-conformant zarr v3 strings

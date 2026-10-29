@@ -3,14 +3,14 @@ date: 2026-03-14
 author: ecosystem-specialist
 type: audit
 scope: workspace
-workspace: ss-fha
+workspace: flood-frequency-toolkit
 ---
 
-# ss-fha Ecosystem Conformity Audit
+# flood-frequency-toolkit Ecosystem Conformity Audit
 
 ## Executive Summary
 
-ss-fha is **partially conformant** with ecosystem conventions. Runtime entrypoints are structurally sound and the symlink deployment pattern is correct, but a cluster of drift findings in the planning directory and the architecture doc's module table will compound if left unaddressed. One significant drift issue exists: the ecosystem-side `architecture.md` (the copy agents actually read at session startup) contains a stale path reference to a utility candidates document that diverges from the workspace-local copy (which points to `~/dev/dcl-utils/`, a directory that does not currently exist).
+flood-frequency-toolkit is **partially conformant** with ecosystem conventions. Runtime entrypoints are structurally sound and the symlink deployment pattern is correct, but a cluster of drift findings in the planning directory and the architecture doc's module table will compound if left unaddressed. One significant drift issue exists: the ecosystem-side `architecture.md` (the copy agents actually read at session startup) contains a stale path reference to a utility candidates document that diverges from the workspace-local copy (which points to `~/dev/dcl-utils/`, a directory that does not currently exist).
 
 **Finding counts**: 0 blocking, 8 drift, 4 advisory, 2 needing clarification.
 
@@ -29,25 +29,25 @@ ss-fha is **partially conformant** with ecosystem conventions. Runtime entrypoin
 
 **Finding 1.1** `[DRIFT]` — Missing `workspace_specific` injection sentinels in the codex `AGENTS.md`.
 
-The `workspace_specific` section in `/home/dcl3nd/dev/agentic-workspace/prompts/runtimes/codex/workspaces/projects/ss-fha/AGENTS.md` (and its symlink at `/home/dcl3nd/dev/ss-fha/AGENTS.md`) contains the workspace-specific file references as a bare markdown list with no `<!-- injection-start: workspace_specific -->` / `<!-- injection-end: workspace_specific -->` sentinels wrapping it. The `all_workspaces_runtimes` and `project_runtimes` blocks in the same file do have correct sentinels and auto-generated comment lines. Without the `workspace_specific` sentinels, `refresh_injections.py` cannot locate or update this block; any future change to the workspace's injected docs would require a manual edit to the codex entrypoint rather than an automated refresh. This same pattern exists in the peer workspace (`lassiterdc-utils` codex `AGENTS.md` also lacks these sentinels), indicating a systemic gap in how codex workspace-specific blocks are generated. The Claude Code `CLAUDE.md` does have the correct sentinels.
+The `workspace_specific` section in `/home/dcl3nd/dev/agentic-workspace/prompts/runtimes/codex/workspaces/projects/flood-frequency-toolkit/AGENTS.md` (and its symlink at `/home/dcl3nd/dev/flood-frequency-toolkit/AGENTS.md`) contains the workspace-specific file references as a bare markdown list with no `<!-- injection-start: workspace_specific -->` / `<!-- injection-end: workspace_specific -->` sentinels wrapping it. The `all_workspaces_runtimes` and `project_runtimes` blocks in the same file do have correct sentinels and auto-generated comment lines. Without the `workspace_specific` sentinels, `refresh_injections.py` cannot locate or update this block; any future change to the workspace's injected docs would require a manual edit to the codex entrypoint rather than an automated refresh. This same pattern exists in the peer workspace (`lassiterdc-utils` codex `AGENTS.md` also lacks these sentinels), indicating a systemic gap in how codex workspace-specific blocks are generated. The Claude Code `CLAUDE.md` does have the correct sentinels.
 
-**Finding 1.2** `[ADVISORY][NEEDS CLARIFICATION]` — No `settings.local.json` at the ss-fha Claude Code runtime directory.
+**Finding 1.2** `[ADVISORY][NEEDS CLARIFICATION]` — No `settings.local.json` at the flood-frequency-toolkit Claude Code runtime directory.
 
-`/home/dcl3nd/dev/agentic-workspace/prompts/runtimes/claude_code/workspaces/projects/ss-fha/` contains only `CLAUDE.md`. The peer workspace `lassiterdc-utils` has a `settings.local.json` file in its equivalent directory, granting auto-approved permissions for common Bash commands and skills. Without this file, Claude Code will prompt for permission on every tool use in ss-fha sessions, which slows routine work. Since `lassiterdc-utils` is a Python computation project of similar character, the absence in ss-fha appears to be a gap rather than an intentional exclusion — but only the workspace owner can confirm.
+`/home/dcl3nd/dev/agentic-workspace/prompts/runtimes/claude_code/workspaces/projects/flood-frequency-toolkit/` contains only `CLAUDE.md`. The peer workspace `lassiterdc-utils` has a `settings.local.json` file in its equivalent directory, granting auto-approved permissions for common Bash commands and skills. Without this file, Claude Code will prompt for permission on every tool use in flood-frequency-toolkit sessions, which slows routine work. Since `lassiterdc-utils` is a Python computation project of similar character, the absence in flood-frequency-toolkit appears to be a gap rather than an intentional exclusion — but only the workspace owner can confirm.
 
 **Finding 1.3** `[ADVISORY]` — Both `CLAUDE.md` and `AGENTS.md` at the workspace root are symlinks and untracked in git.
 
-The workspace root `CLAUDE.md` symlinks to the ecosystem-managed copy; same for `AGENTS.md`. This is the correct deployment pattern for keeping them in sync with `refresh_injections.py` outputs. The untracked git status is intentional and correct — tracking the symlink in ss-fha would be inappropriate since the authoritative file lives in the agentic-workspace repo. No action required on the symlinks themselves. Noted for awareness; not a protocol violation.
+The workspace root `CLAUDE.md` symlinks to the ecosystem-managed copy; same for `AGENTS.md`. This is the correct deployment pattern for keeping them in sync with `refresh_injections.py` outputs. The untracked git status is intentional and correct — tracking the symlink in flood-frequency-toolkit would be inappropriate since the authoritative file lives in the agentic-workspace repo. No action required on the symlinks themselves. Noted for awareness; not a protocol violation.
 
 ---
 
 ### Dimension 2: Workspace prompt documents
 
-**What was checked**: Frontmatter completeness on both workspace prompt docs, `temp_parent` presence, `architecture.md` section checklist per `architecture-doc-conventions.md`, module table accuracy, and glossary overlap between `ss-fha_glossary.md` and the three domain glossaries.
+**What was checked**: Frontmatter completeness on both workspace prompt docs, `temp_parent` presence, `architecture.md` section checklist per `architecture-doc-conventions.md`, module table accuracy, and glossary overlap between `flood-frequency-toolkit_glossary.md` and the three domain glossaries.
 
 **Finding 2.1** `[DRIFT]` — `architecture.md` module table lists five unimplemented modules as current and omits the existing `io/` directory.
 
-The module table in `/home/dcl3nd/dev/agentic-workspace/prompts/workspaces/projects/ss-fha/architecture.md` includes rows for `workflow.py`, `execution.py`, `resource_management.py`, `sensitivity_analysis.py`, and `log.py`. None of these files exist in the current codebase (`/home/dcl3nd/dev/ss-fha/src/ss_fha/`). They are planned for work chunks 04A–04B (Snakemake workflow integration and execution strategy). The `io/` directory (`zarr_io.py`, `gis_io.py`, `netcdf_io.py`) is implemented but has no module table row — only an inline mention inside the `analysis/` description. Presenting aspirational modules as current and omitting an existing module directory constitutes documentation currency drift that will mislead agents reasoning about codebase structure.
+The module table in `/home/dcl3nd/dev/agentic-workspace/prompts/workspaces/projects/flood-frequency-toolkit/architecture.md` includes rows for `workflow.py`, `execution.py`, `resource_management.py`, `sensitivity_analysis.py`, and `log.py`. None of these files exist in the current codebase (`/home/dcl3nd/dev/flood-frequency-toolkit/src/flood_frequency_toolkit/`). They are planned for work chunks 04A–04B (Snakemake workflow integration and execution strategy). The `io/` directory (`zarr_io.py`, `gis_io.py`, `netcdf_io.py`) is implemented but has no module table row — only an inline mention inside the `analysis/` description. Presenting aspirational modules as current and omitting an existing module directory constitutes documentation currency drift that will mislead agents reasoning about codebase structure.
 
 **Finding 2.2** `[DRIFT]` — `architecture.md` is missing the `Active plan references` and `Gotchas` sections required by `architecture-doc-conventions.md` for project workspaces.
 
@@ -55,15 +55,15 @@ Per `architecture-doc-conventions.md`, project workspace `architecture.md` files
 
 **Finding 2.3** `[DRIFT]` — Ecosystem-side `architecture.md` is out of sync with the workspace-local copy on the `utility_package_candidates` path.
 
-Commit `d1d123e` updated the workspace-local `architecture.md` (`/home/dcl3nd/dev/ss-fha/architecture.md`) to reference `~/dev/dcl-utils/docs/planning/utility_package_candidates.md`. The ecosystem-side copy (the file agents actually load at startup via injection) still reads `~/dev/lassiterdc-utils/docs/planning/utility_package_candidates.md`. The directory `~/dev/dcl-utils/` does not exist on disk; `~/dev/lassiterdc-utils/` does exist and contains `utility_package_candidates.md`. The ecosystem copy points to a valid-but-potentially-outdated location while the workspace-local copy points to a path that does not exist. The two `architecture.md` files are diverged because the commit updated only the workspace-tracked copy, not the ecosystem copy. Agents receive the ecosystem copy at session startup.
+Commit `d1d123e` updated the workspace-local `architecture.md` (`/home/dcl3nd/dev/flood-frequency-toolkit/architecture.md`) to reference `~/dev/dcl-utils/docs/planning/utility_package_candidates.md`. The ecosystem-side copy (the file agents actually load at startup via injection) still reads `~/dev/lassiterdc-utils/docs/planning/utility_package_candidates.md`. The directory `~/dev/dcl-utils/` does not exist on disk; `~/dev/lassiterdc-utils/` does exist and contains `utility_package_candidates.md`. The ecosystem copy points to a valid-but-potentially-outdated location while the workspace-local copy points to a path that does not exist. The two `architecture.md` files are diverged because the commit updated only the workspace-tracked copy, not the ecosystem copy. Agents receive the ecosystem copy at session startup.
 
-**Finding 2.4** `[ADVISORY]` — `ss-fha_glossary.md` and `flood_risk_management.md` both define `event_iloc` with complementary but non-identical definitions.
+**Finding 2.4** `[ADVISORY]` — `flood-frequency-toolkit_glossary.md` and `flood_risk_management.md` both define `event_iloc` with complementary but non-identical definitions.
 
-The `flood_risk_management.md` definition is brief: "The canonical flat integer index uniquely identifying a single simulated event within an analysis." The `ss-fha_glossary.md` table entry adds ss-fha-specific detail: the iloc mapping CSV name (`ss_event_iloc_mapping.csv`), the `event_id` / `event_number` distinction, and the DataTree context. Both documents are injected at ss-fha session startup, so the term appears twice. The definitions do not conflict, but the duplication creates minor redundancy. A resolution would require deciding whether the richer definition should be promoted to the shared domain glossary or the generic one should be removed from it — a decision for the ecosystem maintainer.
+The `flood_risk_management.md` definition is brief: "The canonical flat integer index uniquely identifying a single simulated event within an analysis." The `flood-frequency-toolkit_glossary.md` table entry adds flood-frequency-toolkit-specific detail: the iloc mapping CSV name (`ss_event_iloc_mapping.csv`), the `event_id` / `event_number` distinction, and the DataTree context. Both documents are injected at flood-frequency-toolkit session startup, so the term appears twice. The definitions do not conflict, but the duplication creates minor redundancy. A resolution would require deciding whether the richer definition should be promoted to the shared domain glossary or the generic one should be removed from it — a decision for the ecosystem maintainer.
 
-**Finding 2.5** `[ADVISORY]` — Both `architecture.md` and `ss-fha_glossary.md` declare `workspace_type: all` and `workspaces: all` despite being workspace-specific documents.
+**Finding 2.5** `[ADVISORY]` — Both `architecture.md` and `flood-frequency-toolkit_glossary.md` declare `workspace_type: all` and `workspaces: all` despite being workspace-specific documents.
 
-Both files live under `prompts/workspaces/projects/ss-fha/` and are injected only into ss-fha sessions. The `workspaces: all` claim is technically inaccurate, but this matches the peer workspace `lassiterdc-utils` — both its `architecture.md` and `lassiterdc-utils_glossary.md` use the same values. This appears to be an ecosystem-wide convention or a known schema inaccuracy rather than an ss-fha-specific gap. `temp_parent` is present on both documents, confirming they are scheduled for cleanup once the schema is stable.
+Both files live under `prompts/workspaces/projects/flood-frequency-toolkit/` and are injected only into flood-frequency-toolkit sessions. The `workspaces: all` claim is technically inaccurate, but this matches the peer workspace `lassiterdc-utils` — both its `architecture.md` and `lassiterdc-utils_glossary.md` use the same values. This appears to be an ecosystem-wide convention or a known schema inaccuracy rather than an flood-frequency-toolkit-specific gap. `temp_parent` is present on both documents, confirming they are scheduled for cleanup once the schema is stable.
 
 ---
 
@@ -71,9 +71,9 @@ Both files live under `prompts/workspaces/projects/ss-fha/` and are injected onl
 
 **What was checked**: Whether `CLAUDE.md` and `AGENTS.md` at the workspace root are symlinks or copies, sync status, three-tier injection structure, sentinel format, whether `AGENTS.md` is a misfiled artifact, and why they are untracked.
 
-Both `/home/dcl3nd/dev/ss-fha/CLAUDE.md` and `/home/dcl3nd/dev/ss-fha/AGENTS.md` are confirmed symlinks pointing to their respective ecosystem-managed counterparts:
-- `~/dev/agentic-workspace/prompts/runtimes/claude_code/workspaces/projects/ss-fha/CLAUDE.md`
-- `~/dev/agentic-workspace/prompts/runtimes/codex/workspaces/projects/ss-fha/AGENTS.md`
+Both `/home/dcl3nd/dev/flood-frequency-toolkit/CLAUDE.md` and `/home/dcl3nd/dev/flood-frequency-toolkit/AGENTS.md` are confirmed symlinks pointing to their respective ecosystem-managed counterparts:
+- `~/dev/agentic-workspace/prompts/runtimes/claude_code/workspaces/projects/flood-frequency-toolkit/CLAUDE.md`
+- `~/dev/agentic-workspace/prompts/runtimes/codex/workspaces/projects/flood-frequency-toolkit/AGENTS.md`
 
 Because they are symlinks, they are always in sync with the ecosystem-managed files. The `AGENTS.md` at the workspace root is not a misfiled artifact — its content is the correct codex runtime entrypoint for this workspace. The untracked git status is correct. The `workspace_specific` sentinel gap noted in Dimension 1 manifests here as well via the symlink, so the same fix resolves both dimensions.
 
@@ -83,11 +83,11 @@ Because they are symlinks, they are always in sync with the ecosystem-managed fi
 
 **What was checked**: Whether the three injected domain glossaries (`flood_risk_management`, `hydrology`, `statistics`) are appropriate for the project domain, and whether any actively used domain lacks glossary coverage.
 
-The three injected glossaries are well-matched to the ss-fha domain: `flood_risk_management.md` covers simulation types, FHA approaches, and `event_iloc`; `hydrology.md` covers storm surge/tide, return period, and AEP; `statistics.md` covers copulas, vine copulas, KNN resampling, and Poisson processes. All three are relevant to the bootstrapping and stochastic weather generator work at the core of ss-fha.
+The three injected glossaries are well-matched to the flood-frequency-toolkit domain: `flood_risk_management.md` covers simulation types, FHA approaches, and `event_iloc`; `hydrology.md` covers storm surge/tide, return period, and AEP; `statistics.md` covers copulas, vine copulas, KNN resampling, and Poisson processes. All three are relevant to the bootstrapping and stochastic weather generator work at the core of flood-frequency-toolkit.
 
 **Finding 4.1** `[ADVISORY][NEEDS CLARIFICATION]` — No glossary coverage for Snakemake workflow orchestration or HPC/SLURM execution concepts.
 
-The ss-fha pipeline is orchestrated by Snakemake, and upcoming work chunks 04A–04B implement `LocalConcurrentExecutor` and `SlurmExecutor`. A `snakemake-workspace` tool workspace exists in the ecosystem with a `snakemake-workspace_glossary.md`, but it is not injected into ss-fha sessions. There is no HPC/SLURM glossary. Whether this gap matters depends on whether agents frequently need to reason about Snakemake DAG construction or SLURM configuration in ss-fha sessions. If the snakemake specialist is regularly delegated to for those concerns, this gap may be acceptable.
+The flood-frequency-toolkit pipeline is orchestrated by Snakemake, and upcoming work chunks 04A–04B implement `LocalConcurrentExecutor` and `SlurmExecutor`. A `snakemake-workspace` tool workspace exists in the ecosystem with a `snakemake-workspace_glossary.md`, but it is not injected into flood-frequency-toolkit sessions. There is no HPC/SLURM glossary. Whether this gap matters depends on whether agents frequently need to reason about Snakemake DAG construction or SLURM configuration in flood-frequency-toolkit sessions. If the snakemake specialist is regularly delegated to for those concerns, this gap may be acceptable.
 
 ---
 
@@ -97,7 +97,7 @@ The ss-fha pipeline is orchestrated by Snakemake, and upcoming work chunks 04A�
 
 **Finding 5.1** `[DRIFT]` — `plans.md` is absent and `ideas.md` does not follow the current protocol format.
 
-Per `planning-document-lifecycle.md`, `docs/planning/plans.md` and `docs/planning/ideas.md` are persistent auto-generated tracking files produced by `scripts/generate_planning_tables.py`. `plans.md` is missing entirely. `ideas.md` is a manually written header-only stub (no priority table, no individual idea files). The `docs/planning/ideas/` directory for atomic per-idea files does not exist. No `generate_planning_tables.py` script exists in the ss-fha workspace. The planning system's discoverability layer — the tool that lets agents and developers see all active plans and ideas at a glance — is effectively absent.
+Per `planning-document-lifecycle.md`, `docs/planning/plans.md` and `docs/planning/ideas.md` are persistent auto-generated tracking files produced by `scripts/generate_planning_tables.py`. `plans.md` is missing entirely. `ideas.md` is a manually written header-only stub (no priority table, no individual idea files). The `docs/planning/ideas/` directory for atomic per-idea files does not exist. No `generate_planning_tables.py` script exists in the flood-frequency-toolkit workspace. The planning system's discoverability layer — the tool that lets agents and developers see all active plans and ideas at a glance — is effectively absent.
 
 **Finding 5.2** `[DRIFT]` — Active multi-phase plan subdirectories use date-prefixed names, violating the naming convention; the planning `README.md` also prescribes this stale convention.
 
@@ -131,19 +131,19 @@ Same gap as Finding 2.3. Commit `d1d123e` updated five references in the workspa
 
 ### Dimension 7: Peer comparison
 
-**What was checked**: ss-fha compared to `lassiterdc-utils` across runtime entrypoint structure (both harnesses), workspace prompt doc completeness, `settings.local.json` presence, and planning directory structure. No second peer was needed — the key differences were determinable from this single comparison.
+**What was checked**: flood-frequency-toolkit compared to `lassiterdc-utils` across runtime entrypoint structure (both harnesses), workspace prompt doc completeness, `settings.local.json` presence, and planning directory structure. No second peer was needed — the key differences were determinable from this single comparison.
 
-| Dimension | lassiterdc-utils | ss-fha | Assessment |
+| Dimension | lassiterdc-utils | flood-frequency-toolkit | Assessment |
 |-----------|-----------------|---------|------------|
 | Claude Code `CLAUDE.md` — all three sentinel tiers | Conformant | Conformant | Equal |
 | Codex `AGENTS.md` — `workspace_specific` sentinels | Missing | Missing | Shared gap |
-| `settings.local.json` | Present | Absent | Gap in ss-fha |
+| `settings.local.json` | Present | Absent | Gap in flood-frequency-toolkit |
 | Workspace-root symlinks, untracked | Correct | Correct | Equal |
 | `architecture.md` required sections | Minimal (missing Active plan refs, Gotchas) | Richer but stale module table; also missing Active plan refs and Gotchas | Both drift |
 | `plans.md` / `ideas.md` auto-generated | Both absent | `plans.md` absent; `ideas.md` stub | Shared gap |
-| Planning dir naming convention | No active date-prefixed dirs | Two active date-prefixed dirs | Gap in ss-fha only |
+| Planning dir naming convention | No active date-prefixed dirs | Two active date-prefixed dirs | Gap in flood-frequency-toolkit only |
 
-The shared gaps (codex sentinels, missing `plans.md`) are ecosystem-wide issues. The `settings.local.json` absence and date-prefix naming are ss-fha-specific.
+The shared gaps (codex sentinels, missing `plans.md`) are ecosystem-wide issues. The `settings.local.json` absence and date-prefix naming are flood-frequency-toolkit-specific.
 
 ---
 
@@ -151,7 +151,7 @@ The shared gaps (codex sentinels, missing `plans.md`) are ecosystem-wide issues.
 
 1. **Sync ecosystem-side `architecture.md` with workspace-local copy**
    `[DRIFT]` | `straightforward-edit`
-   Update `/home/dcl3nd/dev/agentic-workspace/prompts/workspaces/projects/ss-fha/architecture.md` to match the `utility_package_candidates` path and any other content in the workspace-local copy (`/home/dcl3nd/dev/ss-fha/architecture.md`). Consider making the ecosystem copy the single source of truth to prevent future divergence.
+   Update `/home/dcl3nd/dev/agentic-workspace/prompts/workspaces/projects/flood-frequency-toolkit/architecture.md` to match the `utility_package_candidates` path and any other content in the workspace-local copy (`/home/dcl3nd/dev/flood-frequency-toolkit/architecture.md`). Consider making the ecosystem copy the single source of truth to prevent future divergence.
 
 2. **Update `architecture.md` module table to reflect current codebase state**
    `[DRIFT]` | `straightforward-edit`
@@ -159,15 +159,15 @@ The shared gaps (codex sentinels, missing `plans.md`) are ecosystem-wide issues.
 
 3. **Add `workspace_specific` injection sentinels to the codex `AGENTS.md`**
    `[DRIFT]` | `script`
-   Wrap the `workspace_specific` content in `<!-- injection-start: workspace_specific -->` / `<!-- injection-end: workspace_specific -->` sentinels in `/home/dcl3nd/dev/agentic-workspace/prompts/runtimes/codex/workspaces/projects/ss-fha/AGENTS.md`. The same fix is needed for `lassiterdc-utils` and likely all codex workspace entrypoints — investigate whether this is a `refresh_injections.py` script gap rather than a per-workspace manual edit.
+   Wrap the `workspace_specific` content in `<!-- injection-start: workspace_specific -->` / `<!-- injection-end: workspace_specific -->` sentinels in `/home/dcl3nd/dev/agentic-workspace/prompts/runtimes/codex/workspaces/projects/flood-frequency-toolkit/AGENTS.md`. The same fix is needed for `lassiterdc-utils` and likely all codex workspace entrypoints — investigate whether this is a `refresh_injections.py` script gap rather than a per-workspace manual edit.
 
 4. **Add `Active plan references` and `Gotchas` sections to `architecture.md`**
    `[DRIFT]` | `straightforward-edit`
-   Per `architecture-doc-conventions.md`, add an `## Active Plan References` section linking to the two active refactor plan directories and a `## Gotchas` section documenting known non-obvious behaviors (e.g., the `compound` vs. `combined` historic event_type mismatch documented in `ss-fha_glossary.md`, the dual `architecture.md` copies).
+   Per `architecture-doc-conventions.md`, add an `## Active Plan References` section linking to the two active refactor plan directories and a `## Gotchas` section documenting known non-obvious behaviors (e.g., the `compound` vs. `combined` historic event_type mismatch documented in `flood-frequency-toolkit_glossary.md`, the dual `architecture.md` copies).
 
 5. **Update `work_chunks/README.md` status table for 03B and 03C**
    `[DRIFT]` | `straightforward-edit`
-   Change the status of `03B_workflow2_uncertainty.md` and `03C_event_statistics_runner.md` from "Pending" to "Complete" in `/home/dcl3nd/dev/ss-fha/docs/planning/refactors/2026-02-25_full_codebase_refactor/work_chunks/README.md`.
+   Change the status of `03B_workflow2_uncertainty.md` and `03C_event_statistics_runner.md` from "Pending" to "Complete" in `/home/dcl3nd/dev/flood-frequency-toolkit/docs/planning/refactors/2026-02-25_full_codebase_refactor/work_chunks/README.md`.
 
 6. **Update `docs/planning/README.md` to reflect current naming convention**
    `[DRIFT]` | `straightforward-edit`
@@ -185,25 +185,25 @@ The shared gaps (codex sentinels, missing `plans.md`) are ecosystem-wide issues.
    `[DRIFT]` | `human-decision`
    Adopt or copy `scripts/generate_planning_tables.py` to auto-generate `plans.md` and the `ideas.md` priority table. Create `docs/planning/ideas/` for atomic per-idea files. Convert the current manual `ideas.md` stub to the auto-generated format by running the script.
 
-10. **Confirm or add `settings.local.json` for ss-fha Claude Code runtime**
+10. **Confirm or add `settings.local.json` for flood-frequency-toolkit Claude Code runtime**
     `[ADVISORY][NEEDS CLARIFICATION]` | `human-decision`
-    Review the `lassiterdc-utils` `settings.local.json` as a template and create an equivalent at `$AGENTIC_WORKSPACE/prompts/runtimes/claude_code/workspaces/projects/ss-fha/settings.local.json` if the current permission-prompt behavior in Claude Code sessions is undesirable.
+    Review the `lassiterdc-utils` `settings.local.json` as a template and create an equivalent at `$AGENTIC_WORKSPACE/prompts/runtimes/claude_code/workspaces/projects/flood-frequency-toolkit/settings.local.json` if the current permission-prompt behavior in Claude Code sessions is undesirable.
 
 11. **Assess Snakemake/HPC glossary injection for upcoming workflow work chunks**
     `[ADVISORY][NEEDS CLARIFICATION]` | `human-decision`
-    Decide whether to inject `snakemake-workspace_glossary.md` into ss-fha sessions given that Snakemake workflow construction is a major upcoming work chunk (04A). If yes, add it to the `workspace_specific` injection block and run `refresh_injections.py`.
+    Decide whether to inject `snakemake-workspace_glossary.md` into flood-frequency-toolkit sessions given that Snakemake workflow construction is a major upcoming work chunk (04A). If yes, add it to the `workspace_specific` injection block and run `refresh_injections.py`.
 
 12. **Remove `temp_parent` from workspace prompt docs when schema is stable**
     `[ADVISORY]` | `straightforward-edit`
-    Both `architecture.md` and `ss-fha_glossary.md` carry `temp_parent` as a transitional field scheduled for removal once the frontmatter schema is stable. Track this cleanup as part of the ecosystem schema stabilization effort.
+    Both `architecture.md` and `flood-frequency-toolkit_glossary.md` carry `temp_parent` as a transitional field scheduled for removal once the frontmatter schema is stable. Track this cleanup as part of the ecosystem schema stabilization effort.
 
 ---
 
 ## Appendix: Audit Prompt
 
-Audit the ss-fha workspace for conformity with agentic-workspace ecosystem best practices.
+Audit the flood-frequency-toolkit workspace for conformity with agentic-workspace ecosystem best practices.
 
-- **Workspace root:** `/home/dcl3nd/dev/ss-fha`
+- **Workspace root:** `/home/dcl3nd/dev/flood-frequency-toolkit`
 - **Ecosystem root:** `/home/dcl3nd/dev/agentic-workspace` — in all paths below, `$AGENTIC_WORKSPACE` expands to this absolute path
 - Treat the ecosystem as ground truth. Do not audit or critique it.
 
@@ -235,9 +235,9 @@ Read these before beginning dimension checks. They are the authoritative referen
 
 **1. Runtime entrypoints — both harnesses**
 
-Examine the two managed entrypoints for ss-fha:
-- `$AGENTIC_WORKSPACE/prompts/runtimes/claude_code/workspaces/projects/ss-fha/CLAUDE.md`
-- `$AGENTIC_WORKSPACE/prompts/runtimes/codex/workspaces/projects/ss-fha/AGENTS.md`
+Examine the two managed entrypoints for flood-frequency-toolkit:
+- `$AGENTIC_WORKSPACE/prompts/runtimes/claude_code/workspaces/projects/flood-frequency-toolkit/CLAUDE.md`
+- `$AGENTIC_WORKSPACE/prompts/runtimes/codex/workspaces/projects/flood-frequency-toolkit/AGENTS.md`
 
 For each, check:
 - Frontmatter fields are present and valid per the `agentic_ecosystem.md` schema (`doc_type`, `delivery`, `workspace_type`, `workspaces`, `harness_scope`, `description`)
@@ -247,13 +247,13 @@ For each, check:
 - The `workspace_specific` block uses the `$AGENTIC_WORKSPACE` variable form (not `~/dev/agentic-workspace/`) for ecosystem-side paths
 - No sentinel block appears to have been hand-edited (comment line inside the block reads `AUTO-GENERATED by refresh_injections.py`)
 
-Also check whether a `settings.local.json` permissions file exists at `$AGENTIC_WORKSPACE/prompts/runtimes/claude_code/workspaces/projects/ss-fha/`. Compare against the peer workspace (`lassiterdc-utils`) to assess whether its absence is a gap.
+Also check whether a `settings.local.json` permissions file exists at `$AGENTIC_WORKSPACE/prompts/runtimes/claude_code/workspaces/projects/flood-frequency-toolkit/`. Compare against the peer workspace (`lassiterdc-utils`) to assess whether its absence is a gap.
 
 **2. Workspace prompt documents**
 
 Examine the two workspace-specific prompt docs:
-- `$AGENTIC_WORKSPACE/prompts/workspaces/projects/ss-fha/architecture.md`
-- `$AGENTIC_WORKSPACE/prompts/workspaces/projects/ss-fha/ss-fha_glossary.md`
+- `$AGENTIC_WORKSPACE/prompts/workspaces/projects/flood-frequency-toolkit/architecture.md`
+- `$AGENTIC_WORKSPACE/prompts/workspaces/projects/flood-frequency-toolkit/flood-frequency-toolkit_glossary.md`
 
 For each, check:
 - Frontmatter is complete and valid (all required fields from `agentic_ecosystem.md`)
@@ -263,11 +263,11 @@ For `architecture.md` specifically, check against the section checklist in `arch
 - Purpose statement, module table, configuration system, active plan references, refactoring context, gotchas, environment setup
 - Assess whether the module table and refactoring context reflect the current state of the codebase at a high level — do not perform a deep code review, but do verify that module names and key file paths listed are not obviously stale
 
-For `ss-fha_glossary.md` specifically, check for substantive overlap with the three domain glossaries (`flood_risk_management`, `hydrology`, `statistics`). Flag terms defined in both places if the definitions conflict or are redundant.
+For `flood-frequency-toolkit_glossary.md` specifically, check for substantive overlap with the three domain glossaries (`flood_risk_management`, `hydrology`, `statistics`). Flag terms defined in both places if the definitions conflict or are redundant.
 
 **3. Workspace root entrypoint files**
 
-The ss-fha workspace root contains a `CLAUDE.md` and an `AGENTS.md` (both untracked in git). These are *separate* from the managed ecosystem-side entrypoints in dimension 1.
+The flood-frequency-toolkit workspace root contains a `CLAUDE.md` and an `AGENTS.md` (both untracked in git). These are *separate* from the managed ecosystem-side entrypoints in dimension 1.
 
 Assess each:
 - Is it a symlink to, or a copy of, the ecosystem-managed entrypoint? If a copy, are they in sync?
@@ -277,7 +277,7 @@ Assess each:
 
 **4. Glossary coverage**
 
-Verify that the three domain glossaries injected into ss-fha's `workspace_specific` block are appropriate for the project domain:
+Verify that the three domain glossaries injected into flood-frequency-toolkit's `workspace_specific` block are appropriate for the project domain:
 - `$AGENTIC_WORKSPACE/prompts/glossary/flood_risk_management.md`
 - `$AGENTIC_WORKSPACE/prompts/glossary/hydrology.md`
 - `$AGENTIC_WORKSPACE/prompts/glossary/statistics.md`
@@ -303,7 +303,7 @@ Check whether the workspace instruction files reflect recent codebase activity, 
 
 **7. Peer comparison**
 
-Compare ss-fha against `lassiterdc-utils` as the primary peer (both are Python computation project workspaces under the same ecosystem). If a meaningful structural difference is found in `lassiterdc-utils`, check one additional peer from the project workspace list for confirmation. Do not compare against more than two peers total.
+Compare flood-frequency-toolkit against `lassiterdc-utils` as the primary peer (both are Python computation project workspaces under the same ecosystem). If a meaningful structural difference is found in `lassiterdc-utils`, check one additional peer from the project workspace list for confirmation. Do not compare against more than two peers total.
 
 Comparison scope: runtime entrypoint structure (both harnesses), workspace prompt doc completeness, presence of `settings.local.json`, planning directory structure. Do not compare codebase content or domain-specific design choices.
 
@@ -337,7 +337,7 @@ Apply `[NEEDS CLARIFICATION]` as an **overlay** on any of the above when the evi
 Write findings into this file, replacing only the placeholder line (`*Findings will be written here by the ecosystem-specialist agent.*`). The `## Appendix` section and everything below it must remain intact. Use `##` headings for the three output sections and `###` headings for per-dimension subsections:
 
 **1. Executive summary** (≤200 words)
-- One-sentence conformity verdict: is ss-fha substantially conformant, partially conformant, or significantly drifted from ecosystem conventions?
+- One-sentence conformity verdict: is flood-frequency-toolkit substantially conformant, partially conformant, or significantly drifted from ecosystem conventions?
 - Count of findings by severity: N blocking, N drift, N advisory, N needing clarification
 - The two or three highest-priority items for immediate attention
 

@@ -1,4 +1,4 @@
-"""Platform detection and assertion helpers for ss-fha tests.
+"""Platform detection and assertion helpers for flood-frequency-toolkit tests.
 
 Analogues to TRITON-SWMM_toolkit/tests/utils_for_testing.py — candidates
 for consolidation into a shared utility package (see
@@ -63,7 +63,7 @@ def assert_zarr_valid(path: Path, expected_vars: list[str] | None) -> None:
         List of data variable names that must be present in the store.
         Pass ``None`` to skip variable name checks (existence check only).
     """
-    from ss_fha.io.zarr_io import read_zarr
+    from flood_frequency_toolkit.io.zarr_io import read_zarr
 
     ds = read_zarr(path=path, chunks=None)
 

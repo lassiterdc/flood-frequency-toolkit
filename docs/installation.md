@@ -3,8 +3,8 @@
 ## Create environment
 
 ```bash
-conda create -n ss_fha python=3.11
-conda activate ss_fha
+conda create -n fft python=3.11
+conda activate fft
 ```
 
 ## Install

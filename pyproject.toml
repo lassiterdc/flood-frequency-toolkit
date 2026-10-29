@@ -3,9 +3,9 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "ss-fha"
+name = "flood-frequency-toolkit"
 version = "0.1.0"
-description = "SS-FHA framework"
+description = "FLOOD-FREQUENCY-TOOLKIT framework"
 readme = "README.md"
 authors = [
   {name = "Daniel Lassiter", email = "daniel.lassiter@outlook.com"}
@@ -47,13 +47,13 @@ docs = [
 ]
 
 [project.urls]
-bugs = "https://github.com/lassiterdc/ss_fha/issues"
-changelog = "https://github.com/lassiterdc/ss_fha/releases"
-documentation = "https://lassiterdc.github.io/ss_fha/"
-homepage = "https://github.com/lassiterdc/ss_fha"
+bugs = "https://github.com/lassiterdc/flood_frequency_toolkit/issues"
+changelog = "https://github.com/lassiterdc/flood_frequency_toolkit/releases"
+documentation = "https://lassiterdc.github.io/flood_frequency_toolkit/"
+homepage = "https://github.com/lassiterdc/flood_frequency_toolkit"
 
 [project.scripts]
-ss_fha = "ss_fha.cli:app"
+flood_frequency_toolkit = "flood_frequency_toolkit.cli:app"
 
 # Type checking is configured in pyrightconfig.json (read by both Pylance in VS Code
 # and the pyright CLI). See pyrightconfig.json for suppressed diagnostic categories.

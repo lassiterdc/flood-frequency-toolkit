@@ -1,4 +1,4 @@
-"""Synthetic data generators for ss-fha tests.
+"""Synthetic data generators for flood-frequency-toolkit tests.
 
 All builder functions are pure — they return in-memory objects or write to a
 caller-supplied ``tmp_path``. No argument has a default value: callers must be
@@ -35,9 +35,9 @@ import pandas as pd
 import xarray as xr
 from shapely.geometry import box
 
-from ss_fha.config import load_config_from_dict
-from ss_fha.config.model import SSFHAConfig
-from ss_fha.io.zarr_io import write_zarr
+from flood_frequency_toolkit.config import load_config_from_dict
+from flood_frequency_toolkit.config.model import SSFHAConfig
+from flood_frequency_toolkit.io.zarr_io import write_zarr
 
 
 def build_synthetic_triton_output(n_events: int, nx: int, ny: int) -> xr.Dataset:
@@ -132,7 +132,7 @@ def build_synthetic_observed_output(n_events: int, nx: int, ny: int) -> xr.Datas
 def build_synthetic_event_summaries(n_events: int, include_obs_cols: bool) -> pd.DataFrame:
     """Build a synthetic event summaries DataFrame matching the real CSV schema.
 
-    Only the columns actually used in the ss-fha pipeline are generated
+    Only the columns actually used in the flood-frequency-toolkit pipeline are generated
     (verified against _old_code_to_refactor/, 2026-02-26):
       - Index : event_type, year, event_id  (how the real CSVs are loaded)
       - Data  : precip_depth_mm             (used by all summary validation)

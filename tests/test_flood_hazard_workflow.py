@@ -21,10 +21,10 @@ from tests.utils_for_testing import assert_flood_probs_valid, assert_zarr_valid
 
 def test_run_flood_hazard_produces_valid_output(tmp_path: Path) -> None:
     """run_flood_hazard writes a zarr that passes assert_flood_probs_valid."""
-    from ss_fha.analysis.flood_hazard import run_flood_hazard
-    from ss_fha.config import load_system_config
-    from ss_fha.config.model import SsfhaConfig
-    from ss_fha.io.zarr_io import read_zarr
+    from flood_frequency_toolkit.analysis.flood_hazard import run_flood_hazard
+    from flood_frequency_toolkit.config import load_system_config
+    from flood_frequency_toolkit.config.model import SsfhaConfig
+    from flood_frequency_toolkit.io.zarr_io import read_zarr
 
     cfg = build_minimal_test_case(tmp_path)
     assert isinstance(cfg, SsfhaConfig)
@@ -61,9 +61,9 @@ def test_run_flood_hazard_applies_watershed_mask(tmp_path: Path) -> None:
     """Gridcells outside the watershed should be NaN after masking."""
     import numpy as np
 
-    from ss_fha.analysis.flood_hazard import run_flood_hazard
-    from ss_fha.config import load_system_config
-    from ss_fha.io.zarr_io import read_zarr
+    from flood_frequency_toolkit.analysis.flood_hazard import run_flood_hazard
+    from flood_frequency_toolkit.config import load_system_config
+    from flood_frequency_toolkit.io.zarr_io import read_zarr
 
     cfg = build_minimal_test_case(tmp_path)
     system_cfg = load_system_config(tmp_path / "system.yaml")
@@ -86,9 +86,9 @@ def test_run_flood_hazard_applies_watershed_mask(tmp_path: Path) -> None:
 
 def test_run_flood_hazard_overwrite_false_raises(tmp_path: Path) -> None:
     """Running twice with overwrite=False raises DataError."""
-    from ss_fha.analysis.flood_hazard import run_flood_hazard
-    from ss_fha.config import load_system_config
-    from ss_fha.exceptions import DataError
+    from flood_frequency_toolkit.analysis.flood_hazard import run_flood_hazard
+    from flood_frequency_toolkit.config import load_system_config
+    from flood_frequency_toolkit.exceptions import DataError
 
     cfg = build_minimal_test_case(tmp_path)
     system_cfg = load_system_config(tmp_path / "system.yaml")
@@ -113,8 +113,8 @@ def test_run_flood_hazard_overwrite_false_raises(tmp_path: Path) -> None:
 
 def test_run_flood_hazard_overwrite_true_succeeds(tmp_path: Path) -> None:
     """Running twice with overwrite=True on the second run succeeds."""
-    from ss_fha.analysis.flood_hazard import run_flood_hazard
-    from ss_fha.config import load_system_config
+    from flood_frequency_toolkit.analysis.flood_hazard import run_flood_hazard
+    from flood_frequency_toolkit.config import load_system_config
 
     cfg = build_minimal_test_case(tmp_path)
     system_cfg = load_system_config(tmp_path / "system.yaml")
@@ -136,8 +136,8 @@ def test_run_flood_hazard_overwrite_true_succeeds(tmp_path: Path) -> None:
 
 def test_resolve_triton_zarr_path_invalid_sim_type(tmp_path: Path) -> None:
     """Unknown sim_type raises ConfigurationError."""
-    from ss_fha.analysis.flood_hazard import resolve_triton_zarr_path
-    from ss_fha.exceptions import ConfigurationError
+    from flood_frequency_toolkit.analysis.flood_hazard import resolve_triton_zarr_path
+    from flood_frequency_toolkit.exceptions import ConfigurationError
 
     cfg = build_minimal_test_case(tmp_path)
 
@@ -147,8 +147,8 @@ def test_resolve_triton_zarr_path_invalid_sim_type(tmp_path: Path) -> None:
 
 def test_resolve_triton_zarr_path_missing_field(tmp_path: Path) -> None:
     """Requesting a sim_type whose config field is None raises ConfigurationError."""
-    from ss_fha.analysis.flood_hazard import resolve_triton_zarr_path
-    from ss_fha.exceptions import ConfigurationError
+    from flood_frequency_toolkit.analysis.flood_hazard import resolve_triton_zarr_path
+    from flood_frequency_toolkit.exceptions import ConfigurationError
 
     cfg = build_minimal_test_case(tmp_path)
 
@@ -161,8 +161,8 @@ def test_validate_triton_schema_missing_variable(tmp_path: Path) -> None:
     """A zarr missing max_wlevel_m raises DataError."""
     import numpy as np
 
-    from ss_fha.analysis.flood_hazard import _validate_triton_schema
-    from ss_fha.exceptions import DataError
+    from flood_frequency_toolkit.analysis.flood_hazard import _validate_triton_schema
+    from flood_frequency_toolkit.exceptions import DataError
 
     ds = xr.Dataset({"wrong_var": xr.DataArray(np.zeros((3, 3, 5)), dims=["x", "y", "event_iloc"])})
 
@@ -189,10 +189,10 @@ def test_runner_returns_zero_on_success(tmp_path: Path) -> None:
             "conda",
             "run",
             "-n",
-            "ss-fha",
+            "flood-frequency-toolkit",
             "python",
             "-m",
-            "ss_fha.runners.flood_hazard_runner",
+            "flood_frequency_toolkit.runners.flood_hazard_runner",
             "--config",
             str(analysis_yaml),
             "--system-config",
@@ -220,10 +220,10 @@ def test_runner_returns_nonzero_for_missing_config(tmp_path: Path) -> None:
             "conda",
             "run",
             "-n",
-            "ss-fha",
+            "flood-frequency-toolkit",
             "python",
             "-m",
-            "ss_fha.runners.flood_hazard_runner",
+            "flood_frequency_toolkit.runners.flood_hazard_runner",
             "--config",
             str(tmp_path / "nonexistent.yaml"),
             "--system-config",

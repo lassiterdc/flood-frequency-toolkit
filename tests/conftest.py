@@ -1,4 +1,4 @@
-"""Shared pytest fixtures for ss-fha tests.
+"""Shared pytest fixtures for flood-frequency-toolkit tests.
 
 All fixtures that write files use ``tmp_path`` (function-scoped by default),
 so every test run starts from fresh synthetic data. Nothing is persisted to
@@ -24,7 +24,7 @@ from tests.fixtures.test_case_builder import (
 
 @pytest.fixture
 def tmp_project_dir(tmp_path: Path) -> Path:
-    """Temporary directory with the expected ss-fha project structure.
+    """Temporary directory with the expected flood-frequency-toolkit project structure.
 
     Creates subdirectories mirroring a real project layout:
       tmp_path/
@@ -63,8 +63,8 @@ def full_config(tmp_path: Path):
     """
     import yaml
 
-    from ss_fha.config import load_config_from_dict
-    from ss_fha.io.zarr_io import write_zarr
+    from flood_frequency_toolkit.config import load_config_from_dict
+    from flood_frequency_toolkit.io.zarr_io import write_zarr
 
     n_sim_events = 10
     n_obs_events = 5

@@ -1,4 +1,4 @@
-# Justfile for ss-fha
+# Justfile for flood-frequency-toolkit
 
 # Show available commands
 list:

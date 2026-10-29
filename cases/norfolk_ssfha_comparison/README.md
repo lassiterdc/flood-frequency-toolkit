@@ -134,7 +134,7 @@ Summary:
 | 1 | Raw vs. pre-clipped geospatial | Clip on load via `gis_io.read_shapefile(clip_to=...)` |
 | 2 | `fha_id` naming convention | See YAML inventory table above |
 | 3 | MCDS scope | `toggle_mcds` on combined SSFHA config; not a separate `fha_approach` |
-| 4 | `constant_head_bndry_cndtn` | Not an ss-fha input; belongs to TRITON-SWMM simulation config |
+| 4 | `constant_head_bndry_cndtn` | Not an flood-frequency-toolkit input; belongs to TRITON-SWMM simulation config |
 | 5 | `ppct_alpha` / `FLD_RTRN_PD_ALPHA` | Both generic defaults → `config/defaults.py` |
 | 6 | Combined vs. compound terminology | "Combined" = simulation type; "compound" = phenomenon only |
 | 7 | Geospatial at study area level | Geospatial inputs defined in `norfolk_study_area.yaml`; not repeated per FHA config |

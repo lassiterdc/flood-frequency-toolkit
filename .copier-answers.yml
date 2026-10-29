@@ -3,10 +3,10 @@ _commit: v1.2.0
 _src_path: /home/dcl3nd/dev/copier-workspace
 author_email: daniel.lassiter@outlook.com
 author_name: Daniel Lassiter
-conda_env_name: ss_fha
+conda_env_name: fft
 description: Semicontinuous simulation-based flood hazard assessment framework
 github_username: lassiterdc
-package_name: ss_fha
-project_name: SS-FHA
-project_slug: ss-fha
+package_name: flood_frequency_toolkit
+project_name: FLOOD-FREQUENCY-TOOLKIT
+project_slug: flood-frequency-toolkit
 python_version: '3.11'

@@ -1,7 +1,7 @@
-site_name: "SS-FHA"
+site_name: "FLOOD-FREQUENCY-TOOLKIT"
 site_description: "Semicontinuous simulation-based flood hazard assessment framework"
 site_author: "Daniel Lassiter"
-repo_url: "https://github.com/lassiterdc/ss-fha"
+repo_url: "https://github.com/lassiterdc/flood-frequency-toolkit"
 
 theme:
   name: material

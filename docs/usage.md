@@ -5,9 +5,9 @@
 Import the package and call the sample function:
 
 ```python
-import ss_fha
+import flood_frequency_toolkit
 
-result = ss_fha.hello("world")
+result = flood_frequency_toolkit.hello("world")
 print(result)  # Hello, world!
 ```
 

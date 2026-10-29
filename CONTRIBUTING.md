@@ -90,7 +90,7 @@ Critical paths must raise exceptions; never silently return `False` or `None` on
 
 ### Preserve context in exceptions
 
-Exceptions should include file paths, return codes, and log locations for actionable debugging. Where appropriate, raise custom exceptions from `ss_fha.exceptions` with full contextual attributes.
+Exceptions should include file paths, return codes, and log locations for actionable debugging. Where appropriate, raise custom exceptions from `flood_frequency_toolkit.exceptions` with full contextual attributes.
 
 ### Prefer log-based completion checks over file existence checks
 
@@ -123,7 +123,7 @@ System-specific information belongs in user-defined configuration files. Avoid h
 
 ### All hardcoded constants in one module
 
-All module-level constants (named `UPPER_SNAKE_CASE`) belong in `src/ss_fha/constants.py`. Case-study-specific values (e.g. `n_years_synthesized`, `return_periods`, rain windows) are user YAML config values, not constants. Do not define constants in individual modules; import from `constants.py` instead.
+All module-level constants (named `UPPER_SNAKE_CASE`) belong in `src/flood_frequency_toolkit/constants.py`. Case-study-specific values (e.g. `n_years_synthesized`, `return_periods`, rain windows) are user YAML config values, not constants. Do not define constants in individual modules; import from `constants.py` instead.
 
 ### Type checking
 

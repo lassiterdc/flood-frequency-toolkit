@@ -1,4 +1,4 @@
-"""Tests for ss_fha.config and ss_fha.exceptions (Work Chunks 01A, 01B)."""
+"""Tests for flood_frequency_toolkit.config and flood_frequency_toolkit.exceptions (Work Chunks 01A, 01B)."""
 
 from pathlib import Path
 
@@ -9,7 +9,7 @@ from pathlib import Path
 
 def test_defaults_are_accessible():
     """All default constants can be imported and have the expected types."""
-    from ss_fha.config.defaults import (
+    from flood_frequency_toolkit.config.defaults import (
         DEFAULT_BOOTSTRAP_CI_ALPHA,
         DEFAULT_DEPTH_THRESHOLDS_M,
         DEFAULT_N_BOOTSTRAP_SAMPLES,
@@ -43,8 +43,8 @@ def test_defaults_are_accessible():
 # ---------------------------------------------------------------------------
 
 def test_exceptions_importable():
-    """All required exception classes can be imported from ss_fha.exceptions."""
-    from ss_fha.exceptions import (  # noqa: F401
+    """All required exception classes can be imported from flood_frequency_toolkit.exceptions."""
+    from flood_frequency_toolkit.exceptions import (  # noqa: F401
         BootstrapError,
         ConfigurationError,
         DataError,
@@ -60,7 +60,7 @@ def test_exceptions_importable():
 
 def test_exceptions_have_attributes():
     """Each exception stores the contextual attributes specified in the plan."""
-    from ss_fha.exceptions import (
+    from flood_frequency_toolkit.exceptions import (
         BootstrapError,
         ConfigurationError,
         DataError,
@@ -111,8 +111,8 @@ def test_exceptions_have_attributes():
 
 
 def test_exception_hierarchy():
-    """All ss-fha exceptions are catchable as SSFHAError."""
-    from ss_fha.exceptions import (
+    """All flood-frequency-toolkit exceptions are catchable as SSFHAError."""
+    from flood_frequency_toolkit.exceptions import (
         BootstrapError,
         ConfigurationError,
         DataError,
@@ -187,7 +187,7 @@ _MINIMAL_SYSTEM_DICT = {
 
 def test_model_importable():
     """All config model classes and loader functions can be imported."""
-    from ss_fha.config import (  # noqa: F401
+    from flood_frequency_toolkit.config import (  # noqa: F401
         BdsConfig,
         EventDataConfig,
         ExecutionConfig,
@@ -211,7 +211,7 @@ def test_model_importable():
 
 def test_minimal_ssfha_config_loads():
     """Minimal SsfhaConfig (all toggles off) loads without error."""
-    from ss_fha.config import load_config_from_dict, SsfhaConfig
+    from flood_frequency_toolkit.config import load_config_from_dict, SsfhaConfig
     cfg = load_config_from_dict(_MINIMAL_SSFHA_DICT)
     assert isinstance(cfg, SsfhaConfig)
     assert cfg.fha_id == "test_ssfha"
@@ -221,7 +221,7 @@ def test_minimal_ssfha_config_loads():
 
 def test_minimal_bds_config_loads():
     """Minimal BdsConfig loads without error."""
-    from ss_fha.config import load_config_from_dict, BdsConfig
+    from flood_frequency_toolkit.config import load_config_from_dict, BdsConfig
     cfg = load_config_from_dict(_MINIMAL_BDS_DICT)
     assert isinstance(cfg, BdsConfig)
     assert cfg.fha_id == "test_bds"
@@ -230,7 +230,7 @@ def test_minimal_bds_config_loads():
 
 def test_minimal_system_config_loads():
     """Minimal SystemConfig loads without error."""
-    from ss_fha.config.model import SystemConfig
+    from flood_frequency_toolkit.config.model import SystemConfig
     cfg = SystemConfig.model_validate(_MINIMAL_SYSTEM_DICT)
     assert cfg.crs_epsg == 32147
     assert cfg.study_area_id == "test_area"
@@ -242,7 +242,7 @@ def test_minimal_system_config_loads():
 
 def test_discriminated_union_selects_correct_model():
     """load_config_from_dict selects SsfhaConfig vs BdsConfig by fha_approach."""
-    from ss_fha.config import load_config_from_dict, SsfhaConfig, BdsConfig
+    from flood_frequency_toolkit.config import load_config_from_dict, SsfhaConfig, BdsConfig
     ssfha = load_config_from_dict(_MINIMAL_SSFHA_DICT)
     bds = load_config_from_dict(_MINIMAL_BDS_DICT)
     assert isinstance(ssfha, SsfhaConfig)
@@ -253,7 +253,7 @@ def test_invalid_fha_approach_raises():
     """An unrecognised fha_approach raises an error at parse time."""
     import pytest
     from pydantic import ValidationError as PydanticValidationError
-    from ss_fha.config import load_config_from_dict
+    from flood_frequency_toolkit.config import load_config_from_dict
 
     bad = dict(_MINIMAL_SSFHA_DICT, fha_approach="unknown_approach")
     with pytest.raises(PydanticValidationError):
@@ -263,8 +263,8 @@ def test_invalid_fha_approach_raises():
 def test_missing_fha_approach_raises_configuration_error():
     """Missing fha_approach key raises ConfigurationError."""
     import pytest
-    from ss_fha.config import load_config_from_dict
-    from ss_fha.exceptions import ConfigurationError
+    from flood_frequency_toolkit.config import load_config_from_dict
+    from flood_frequency_toolkit.exceptions import ConfigurationError
 
     d = dict(_MINIMAL_SSFHA_DICT)
     del d["fha_approach"]
@@ -279,8 +279,8 @@ def test_missing_fha_approach_raises_configuration_error():
 def test_toggle_ppcct_requires_ppcct_section():
     """toggle_ppcct=True without a ppcct section raises ConfigurationError."""
     import pytest
-    from ss_fha.config import load_config_from_dict
-    from ss_fha.exceptions import ConfigurationError
+    from flood_frequency_toolkit.config import load_config_from_dict
+    from flood_frequency_toolkit.exceptions import ConfigurationError
 
     d = dict(_MINIMAL_SSFHA_DICT)
     d["toggle_ppcct"] = True
@@ -297,8 +297,8 @@ def test_toggle_ppcct_requires_ppcct_section():
 def test_toggle_ppcct_requires_observed_zarr():
     """toggle_ppcct=True without triton_outputs.observed raises ConfigurationError."""
     import pytest
-    from ss_fha.config import load_config_from_dict
-    from ss_fha.exceptions import ConfigurationError
+    from flood_frequency_toolkit.config import load_config_from_dict
+    from flood_frequency_toolkit.exceptions import ConfigurationError
 
     d = dict(_MINIMAL_SSFHA_DICT)
     d["toggle_ppcct"] = True
@@ -314,7 +314,7 @@ def test_toggle_ppcct_requires_observed_zarr():
 
 def test_toggle_ppcct_all_present_passes():
     """toggle_ppcct=True with all required fields present loads successfully."""
-    from ss_fha.config import load_config_from_dict
+    from flood_frequency_toolkit.config import load_config_from_dict
 
     d = dict(_MINIMAL_SSFHA_DICT)
     d["toggle_ppcct"] = True
@@ -331,8 +331,8 @@ def test_toggle_ppcct_all_present_passes():
 def test_toggle_design_comparison_requires_alt_fha_analyses():
     """toggle_design_comparison=True without alt_fha_analyses raises ConfigurationError."""
     import pytest
-    from ss_fha.config import load_config_from_dict
-    from ss_fha.exceptions import ConfigurationError
+    from flood_frequency_toolkit.config import load_config_from_dict
+    from flood_frequency_toolkit.exceptions import ConfigurationError
 
     d = dict(_MINIMAL_SSFHA_DICT)
     d["toggle_design_comparison"] = True
@@ -343,8 +343,8 @@ def test_toggle_design_comparison_requires_alt_fha_analyses():
 def test_toggle_validation_accumulates_errors():
     """Multiple toggle violations are reported together, not one at a time."""
     import pytest
-    from ss_fha.config import load_config_from_dict
-    from ss_fha.exceptions import ConfigurationError
+    from flood_frequency_toolkit.config import load_config_from_dict
+    from flood_frequency_toolkit.exceptions import ConfigurationError
 
     d = dict(_MINIMAL_SSFHA_DICT)
     d["toggle_ppcct"] = True          # missing ppcct section, observed zarr, obs_event_summaries
@@ -365,7 +365,7 @@ def test_config_validates_required_fields():
     """Missing required fields raise pydantic.ValidationError."""
     import pytest
     from pydantic import ValidationError as PydanticValidationError
-    from ss_fha.config import load_config_from_dict
+    from flood_frequency_toolkit.config import load_config_from_dict
 
     # n_years_synthesized is required on SsfhaConfig
     d = dict(_MINIMAL_SSFHA_DICT)
@@ -376,7 +376,7 @@ def test_config_validates_required_fields():
 
 def test_bds_has_no_toggle_uncertainty():
     """BdsConfig must not have a toggle_uncertainty field."""
-    from ss_fha.config import BdsConfig
+    from flood_frequency_toolkit.config import BdsConfig
     assert not hasattr(BdsConfig.model_fields, "toggle_uncertainty") or \
            "toggle_uncertainty" not in BdsConfig.model_fields
 
@@ -388,8 +388,8 @@ def test_bds_has_no_toggle_uncertainty():
 def test_fema_fields_must_be_paired():
     """SystemConfig raises ConfigurationError if only one FEMA field is set."""
     import pytest
-    from ss_fha.config.model import SystemConfig
-    from ss_fha.exceptions import ConfigurationError
+    from flood_frequency_toolkit.config.model import SystemConfig
+    from flood_frequency_toolkit.exceptions import ConfigurationError
 
     # raster set, return period missing
     d = dict(_MINIMAL_SYSTEM_DICT)
@@ -411,7 +411,7 @@ def test_fema_fields_must_be_paired():
 
 def test_fema_fields_both_set_passes():
     """SystemConfig with both FEMA fields set loads without error."""
-    from ss_fha.config.model import SystemConfig
+    from flood_frequency_toolkit.config.model import SystemConfig
 
     d = dict(_MINIMAL_SYSTEM_DICT)
     d["geospatial"] = {
@@ -425,7 +425,7 @@ def test_fema_fields_both_set_passes():
 
 def test_fema_fields_both_none_passes():
     """SystemConfig with both FEMA fields absent (None) loads without error."""
-    from ss_fha.config.model import SystemConfig
+    from flood_frequency_toolkit.config.model import SystemConfig
 
     cfg = SystemConfig.model_validate(_MINIMAL_SYSTEM_DICT)
     assert cfg.geospatial.fema_flood_raster is None
@@ -439,8 +439,8 @@ def test_fema_fields_both_none_passes():
 def test_slurm_mode_requires_slurm_section():
     """ExecutionConfig with mode='slurm' but no slurm section raises ConfigurationError."""
     import pytest
-    from ss_fha.config import load_config_from_dict
-    from ss_fha.exceptions import ConfigurationError
+    from flood_frequency_toolkit.config import load_config_from_dict
+    from flood_frequency_toolkit.exceptions import ConfigurationError
 
     d = dict(_MINIMAL_SSFHA_DICT)
     d["execution"] = {"mode": "slurm"}
@@ -455,7 +455,7 @@ def test_slurm_mode_requires_slurm_section():
 def test_output_dir_set_from_yaml_parent(tmp_path):
     """load_config sets output_dir to yaml_path.parent when not specified."""
     import yaml as _yaml
-    from ss_fha.config import load_config
+    from flood_frequency_toolkit.config import load_config
 
     yaml_data = dict(_MINIMAL_SSFHA_DICT)
     yaml_file = tmp_path / "analysis_test.yaml"
@@ -469,7 +469,7 @@ def test_output_dir_explicit_not_overridden(tmp_path):
     """load_config does not override an explicitly set output_dir."""
     import yaml as _yaml
     from pathlib import Path as _Path
-    from ss_fha.config import load_config
+    from flood_frequency_toolkit.config import load_config
 
     yaml_data = dict(_MINIMAL_SSFHA_DICT)
     yaml_data["output_dir"] = str(tmp_path / "custom_output")
@@ -490,7 +490,7 @@ NORFOLK_ANALYSIS_YAMLS = sorted(NORFOLK_CASE_DIR.glob("analysis_*.yaml"))
 
 def test_norfolk_system_yaml_loads():
     """Norfolk system.yaml loads as SystemConfig without error."""
-    from ss_fha.config import load_system_config
+    from flood_frequency_toolkit.config import load_system_config
     cfg = load_system_config(NORFOLK_CASE_DIR / "system.yaml")
     assert cfg.crs_epsg == 32147
     assert cfg.study_area_id == "norfolk_va"
@@ -506,8 +506,8 @@ def test_norfolk_case_yamls_load(yaml_path):
     YAML key vs Pydantic field name mismatches that Pydantic's strict=False
     mode would otherwise swallow.
     """
-    from ss_fha.config import load_config
-    from ss_fha.config.model import SsfhaConfig, BdsConfig
+    from flood_frequency_toolkit.config import load_config
+    from flood_frequency_toolkit.config.model import SsfhaConfig, BdsConfig
 
     cfg = load_config(yaml_path)
     assert cfg.fha_id is not None
@@ -536,7 +536,7 @@ def test_norfolk_case_yamls_load(yaml_path):
 
 def _make_system_config(tmp_path):
     """Return a minimal SystemConfig whose watershed path actually exists."""
-    from ss_fha.config.model import SystemConfig
+    from flood_frequency_toolkit.config.model import SystemConfig
 
     wshed = tmp_path / "watershed.shp"
     wshed.touch()
@@ -554,7 +554,7 @@ def _make_ssfha_config(tmp_path, *, make_files: bool = True):
     checks pass. When make_files=False, the paths are declared but do not exist,
     allowing missing-file tests.
     """
-    from ss_fha.config import load_config_from_dict
+    from flood_frequency_toolkit.config import load_config_from_dict
 
     combined = tmp_path / "combined.zarr"
     summaries = tmp_path / "summaries.csv"
@@ -588,8 +588,8 @@ def _make_ssfha_config(tmp_path, *, make_files: bool = True):
 # ---------------------------------------------------------------------------
 
 def test_validation_importable():
-    """All public names from ss_fha.validation can be imported."""
-    from ss_fha.validation import (  # noqa: F401
+    """All public names from flood_frequency_toolkit.validation can be imported."""
+    from flood_frequency_toolkit.validation import (  # noqa: F401
         ValidationIssue,
         ValidationResult,
         preflight_validate,
@@ -605,7 +605,7 @@ def test_validation_importable():
 
 def test_validation_result_starts_valid():
     """An empty ValidationResult is valid."""
-    from ss_fha.validation import ValidationResult
+    from flood_frequency_toolkit.validation import ValidationResult
     result = ValidationResult()
     assert result.is_valid
     assert result.issues == []
@@ -613,7 +613,7 @@ def test_validation_result_starts_valid():
 
 def test_validation_result_add_issue_marks_invalid():
     """Adding an issue makes is_valid False."""
-    from ss_fha.validation import ValidationResult
+    from flood_frequency_toolkit.validation import ValidationResult
     result = ValidationResult()
     result.add_issue(
         field_name="some_field",
@@ -627,7 +627,7 @@ def test_validation_result_add_issue_marks_invalid():
 
 def test_validation_result_merge():
     """merge() combines issues from two ValidationResults."""
-    from ss_fha.validation import ValidationResult
+    from flood_frequency_toolkit.validation import ValidationResult
     a = ValidationResult()
     a.add_issue("field_a", "msg_a", None, "fix_a")
     b = ValidationResult()
@@ -641,8 +641,8 @@ def test_validation_result_merge():
 def test_validation_result_raise_if_invalid_raises():
     """raise_if_invalid() raises SSFHAValidationError when issues exist."""
     import pytest
-    from ss_fha.validation import ValidationResult
-    from ss_fha.exceptions import SSFHAValidationError
+    from flood_frequency_toolkit.validation import ValidationResult
+    from flood_frequency_toolkit.exceptions import SSFHAValidationError
     result = ValidationResult()
     result.add_issue("f", "m", "v", "h")
     with pytest.raises(SSFHAValidationError):
@@ -651,14 +651,14 @@ def test_validation_result_raise_if_invalid_raises():
 
 def test_validation_result_raise_if_invalid_silent_when_valid():
     """raise_if_invalid() does not raise when there are no issues."""
-    from ss_fha.validation import ValidationResult
+    from flood_frequency_toolkit.validation import ValidationResult
     result = ValidationResult()
     result.raise_if_invalid()  # must not raise
 
 
 def test_validation_issue_str_contains_key_fields():
     """ValidationIssue.__str__ includes field, message, current_value, and fix_hint."""
-    from ss_fha.validation import ValidationIssue
+    from flood_frequency_toolkit.validation import ValidationIssue
     issue = ValidationIssue(
         field="triton_outputs.combined",
         message="does not exist",
@@ -679,9 +679,9 @@ def test_validation_issue_str_contains_key_fields():
 def test_validation_missing_input_files(tmp_path):
     """preflight_validate reports all missing files, not just the first."""
     import pytest
-    from ss_fha.validation import validate_input_files
-    from ss_fha.config import load_config_from_dict
-    from ss_fha.config.model import SystemConfig
+    from flood_frequency_toolkit.validation import validate_input_files
+    from flood_frequency_toolkit.config import load_config_from_dict
+    from flood_frequency_toolkit.config.model import SystemConfig
 
     # System config pointing to a non-existent watershed
     system_cfg = SystemConfig.model_validate({
@@ -736,10 +736,10 @@ def test_validation_missing_input_files(tmp_path):
 def test_validation_accumulates_errors(tmp_path):
     """Multiple issues across validate_* functions are all reported together."""
     import pytest
-    from ss_fha.validation import preflight_validate
-    from ss_fha.exceptions import SSFHAValidationError
-    from ss_fha.config.model import SystemConfig
-    from ss_fha.config import load_config_from_dict
+    from flood_frequency_toolkit.validation import preflight_validate
+    from flood_frequency_toolkit.exceptions import SSFHAValidationError
+    from flood_frequency_toolkit.config.model import SystemConfig
+    from flood_frequency_toolkit.config import load_config_from_dict
 
     # System with missing watershed
     system_cfg = SystemConfig.model_validate({
@@ -793,8 +793,8 @@ def test_validation_per_workflow(tmp_path):
     observed zarr, ppcct section, and obs_event_summaries — verifying that
     validate_workflow_inputs catches all three.
     """
-    from ss_fha.validation import validate_workflow_inputs
-    from ss_fha.config.model import (
+    from flood_frequency_toolkit.validation import validate_workflow_inputs
+    from flood_frequency_toolkit.config.model import (
         SsfhaConfig, TritonOutputsConfig, EventDataConfig, ExecutionConfig
     )
 
@@ -840,7 +840,7 @@ def test_validation_per_workflow(tmp_path):
 
 def test_validation_passes_for_valid_config(tmp_path):
     """preflight_validate returns a valid result when all paths exist and config is complete."""
-    from ss_fha.validation import preflight_validate
+    from flood_frequency_toolkit.validation import preflight_validate
 
     system_cfg = _make_system_config(tmp_path)
     analysis_cfg = _make_ssfha_config(tmp_path, make_files=True)
@@ -862,7 +862,7 @@ def test_synthetic_test_case_builds(tmp_path):
     - The sim event summaries CSV exists on disk with the expected index
     - assert_zarr_valid passes for the zarr store
     """
-    from ss_fha.config import SsfhaConfig
+    from flood_frequency_toolkit.config import SsfhaConfig
     from tests.fixtures.test_case_builder import build_minimal_test_case
     from tests.utils_for_testing import assert_zarr_valid
 
@@ -899,15 +899,15 @@ def test_synthetic_test_case_builds(tmp_path):
 
 _TEMPLATE_PATH = (
     Path(__file__).parents[1]
-    / "src" / "ss_fha" / "examples" / "config_templates" / "norfolk_default.yaml"
+    / "src" / "flood_frequency_toolkit" / "examples" / "config_templates" / "norfolk_default.yaml"
 )
 
 
 def test_catalog_import_raises_before_id_populated():
     """NORFOLK_HYDROSHARE_RESOURCE_ID() raises ConfigurationError before ID is set."""
     import pytest
-    from ss_fha.examples.case_study_catalog import NORFOLK_HYDROSHARE_RESOURCE_ID
-    from ss_fha.exceptions import ConfigurationError
+    from flood_frequency_toolkit.examples.case_study_catalog import NORFOLK_HYDROSHARE_RESOURCE_ID
+    from flood_frequency_toolkit.exceptions import ConfigurationError
 
     with pytest.raises(ConfigurationError) as exc_info:
         NORFOLK_HYDROSHARE_RESOURCE_ID()
@@ -917,7 +917,7 @@ def test_catalog_import_raises_before_id_populated():
 
 def test_catalog_registry_has_norfolk():
     """CASE_STUDY_REGISTRY contains the norfolk_ssfha_comparison entry."""
-    from ss_fha.examples.case_study_catalog import CASE_STUDY_REGISTRY
+    from flood_frequency_toolkit.examples.case_study_catalog import CASE_STUDY_REGISTRY
 
     assert "norfolk_ssfha_comparison" in CASE_STUDY_REGISTRY
     entry = CASE_STUDY_REGISTRY["norfolk_ssfha_comparison"]
@@ -938,7 +938,7 @@ def test_template_fills_and_parses(tmp_path):
     """
     import yaml as _yaml
     from pathlib import Path as _Path
-    from ss_fha.config import load_config, SsfhaConfig
+    from flood_frequency_toolkit.config import load_config, SsfhaConfig
 
     # Write a fake system.yaml so load_config can merge it
     fake_data_dir = tmp_path / "hydroshare_data"
@@ -975,8 +975,8 @@ def test_template_fills_and_parses(tmp_path):
 def test_template_raises_on_unfilled_placeholder():
     """load_config raises ConfigurationError when placeholders dict is omitted."""
     import pytest
-    from ss_fha.config import load_config
-    from ss_fha.exceptions import ConfigurationError
+    from flood_frequency_toolkit.config import load_config
+    from flood_frequency_toolkit.exceptions import ConfigurationError
 
     with pytest.raises(ConfigurationError) as exc_info:
         load_config(_TEMPLATE_PATH)

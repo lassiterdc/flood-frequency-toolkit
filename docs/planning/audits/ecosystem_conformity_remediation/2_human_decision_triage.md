@@ -24,7 +24,7 @@ Create with the following content covering the four triage items:
 
 **Item A — Codex `AGENTS.md` missing `workspace_specific` sentinels** (audit action 3)
 
-Context: Both `ss-fha` and `lassiterdc-utils` codex `AGENTS.md` files have no `<!-- injection-start: workspace_specific -->` / `<!-- injection-end: workspace_specific -->` sentinels around their workspace-specific block. This means `refresh_injections.py` cannot manage that block automatically.
+Context: Both `flood-frequency-toolkit` and `lassiterdc-utils` codex `AGENTS.md` files have no `<!-- injection-start: workspace_specific -->` / `<!-- injection-end: workspace_specific -->` sentinels around their workspace-specific block. This means `refresh_injections.py` cannot manage that block automatically.
 
 Decision: Is this a `refresh_injections.py` script gap (fix once, fixes all codex workspace entrypoints), or a per-file manual edit?
 
@@ -52,7 +52,7 @@ Recommended: grandfather — the convention change is recent, the blast radius f
 
 **Item C — `settings.local.json` absent from Claude Code runtime dir** (audit action 10)
 
-Context: `lassiterdc-utils` has `~/dev/agentic-workspace/prompts/runtimes/claude_code/workspaces/projects/lassiterdc-utils/settings.local.json` granting auto-approved permissions for common Bash commands and skills. ss-fha lacks this — Claude Code will prompt for permission on every tool use.
+Context: `lassiterdc-utils` has `~/dev/agentic-workspace/prompts/runtimes/claude_code/workspaces/projects/lassiterdc-utils/settings.local.json` granting auto-approved permissions for common Bash commands and skills. flood-frequency-toolkit lacks this — Claude Code will prompt for permission on every tool use.
 
 Decision: Create one? If yes, what permissions to grant?
 
@@ -60,13 +60,13 @@ Options:
 - Create, modeled on `lassiterdc-utils/settings.local.json`
 - Leave absent if the default permission behavior is acceptable
 
-Recommended: create — routine ss-fha sessions involve many Bash, Read, Edit, Glob, and Grep calls. The friction is real.
+Recommended: create — routine flood-frequency-toolkit sessions involve many Bash, Read, Edit, Glob, and Grep calls. The friction is real.
 
 ---
 
 **Item D — No Snakemake/HPC glossary injected** (audit action 11)
 
-Context: Upcoming work chunks 04A–04B implement Snakemake workflow construction and SLURM/local execution strategies. A `snakemake-workspace_glossary.md` exists in the ecosystem but is not injected into ss-fha sessions.
+Context: Upcoming work chunks 04A–04B implement Snakemake workflow construction and SLURM/local execution strategies. A `snakemake-workspace_glossary.md` exists in the ecosystem but is not injected into flood-frequency-toolkit sessions.
 
 Decision: Inject `snakemake-workspace_glossary.md` ahead of work chunk 04A?
 
