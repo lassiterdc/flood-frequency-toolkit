@@ -226,9 +226,11 @@ hydroshare_data/*
 # This block is rewritten automatically, so edits inside it are discarded.
 /.claude/settings.local.json
 /.clinerules
+/.hermes.md
 /AGENTS.md
 /CLAUDE.md
 # <<< local agent entrypoints <<<
 
-# Kept OUTSIDE the generated block above, which is rewritten automatically.
-/.hermes.md
+# Local agent tooling state, ignored here rather than in the generated block above
+# because no workspace declares it in the manifest's generated_paths.
+/.codex/
