@@ -17,18 +17,18 @@ From source
 -----------
 
 The source files for flood-frequency-toolkit can be downloaded from the
-`Github repo <https://github.com/lassiterdc/flood_frequency_toolkit>`_.
+`Github repo <https://github.com/lassiterdc/flood-frequency-toolkit>`_.
 
 You can either clone the public repository::
 
-    git clone https://github.com/lassiterdc/flood_frequency_toolkit
+    git clone https://github.com/lassiterdc/flood-frequency-toolkit
 
 Or download the
-`tarball <https://github.com/lassiterdc/flood_frequency_toolkit/tarball/main>`_::
+`tarball <https://github.com/lassiterdc/flood-frequency-toolkit/tarball/main>`_::
 
-    curl -OJL https://github.com/lassiterdc/flood_frequency_toolkit/tarball/main
+    curl -OJL https://github.com/lassiterdc/flood-frequency-toolkit/tarball/main
 
 Once you have a copy of the source, you can install it with::
 
-    cd flood_frequency_toolkit
+    cd flood-frequency-toolkit
     uv sync

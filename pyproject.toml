@@ -47,10 +47,10 @@ docs = [
 ]
 
 [project.urls]
-bugs = "https://github.com/lassiterdc/flood_frequency_toolkit/issues"
-changelog = "https://github.com/lassiterdc/flood_frequency_toolkit/releases"
-documentation = "https://lassiterdc.github.io/flood_frequency_toolkit/"
-homepage = "https://github.com/lassiterdc/flood_frequency_toolkit"
+bugs = "https://github.com/lassiterdc/flood-frequency-toolkit/issues"
+changelog = "https://github.com/lassiterdc/flood-frequency-toolkit/releases"
+documentation = "https://lassiterdc.github.io/flood-frequency-toolkit/"
+homepage = "https://github.com/lassiterdc/flood-frequency-toolkit"
 
 [project.scripts]
 flood_frequency_toolkit = "flood_frequency_toolkit.cli:app"

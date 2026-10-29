@@ -18,7 +18,7 @@ import flood_frequency_toolkit
 
 ## Documentation
 
-Full documentation at [GitHub Pages](https://lassiterdc.github.io/flood_frequency_toolkit/).
+Full documentation at [GitHub Pages](https://lassiterdc.github.io/flood-frequency-toolkit/).
 
 ## Development
 
